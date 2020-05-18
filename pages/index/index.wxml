@@ -11,3 +11,13 @@
     <text class="user-motto">{{motto}}</text>
   </view>
 </view>
+
+<van-tabbar active="{{ active }}" 
+active-color="#07c160"
+inactive-color="#000"
+bind:change="colorChange">
+  <van-tabbar-item icon="orders-o">浏览</van-tabbar-item>
+  <van-tabbar-item icon="add-o">发布</van-tabbar-item>
+  <van-tabbar-item icon="balance-list-o">任务</van-tabbar-item>
+  <van-tabbar-item icon="setting-o">个人</van-tabbar-item>
+</van-tabbar>

@@ -4,7 +4,7 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
+    motto: '欢迎进入南跑跑',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -43,6 +43,9 @@ Page({
       })
     }
   },
+  colorChange(event) {
+      this.setData({ active: event.detail });
+  },
   getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
@@ -51,4 +54,6 @@ Page({
       hasUserInfo: true
     })
   }
-})
+}
+);
+

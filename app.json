@@ -1,4 +1,8 @@
 {
+  "usingComponents": {
+    "van-tabbar": "@vant/weapp/tabbar/index",
+    "van-tabbar-item": "@vant/weapp/tabbar-item/index"
+  },
   "pages":[
     "pages/index/index",
     "pages/logs/logs"
@@ -12,3 +16,5 @@
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }
+
+
