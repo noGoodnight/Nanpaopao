@@ -35,5 +35,9 @@ App({
   },
   globalData: {
     userInfo: null
-  }
+  },
+//tabbar
+  colorChange(event) {
+    this.setData({ active: event.detail });
+}
 })

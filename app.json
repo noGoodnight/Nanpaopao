@@ -4,9 +4,36 @@
     "van-tabbar-item": "@vant/weapp/tabbar-item/index"
   },
   "pages":[
-    "pages/index/index",
+    "pages/login/login",
+    "pages/browse/browse",
+    "pages/publish/publish",
+    "pages/orders/orders",
+    "pages/userinfo/userinfo",
     "pages/logs/logs"
   ],
+  "tabBar":{
+    "custom":true,
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/browse/browse",
+        "text": "浏览"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "text": "发布"
+      },
+      {
+        "pagePath": "pages/orders/orders",
+        "text": "任务"
+      },
+      {
+        "pagePath": "pages/userinfo/userinfo",
+        "text": "个人"
+      }
+    ]
+  },
+
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",

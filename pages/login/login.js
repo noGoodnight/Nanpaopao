@@ -11,10 +11,23 @@ Page({
   },
   //事件处理函数
   bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
+    wx.switchTab({
+      url: '/pages/browse/browse'
     })
   },
+  intoApp: function(){
+    if(this.data.canIUse){
+      setTimeout(function () {
+        wx.switchTab({
+          url: '/pages/browse/browse',
+        })}
+        , 3000)
+    }
+    else{
+      console.log("NNNNNnn")
+      console.log(this.data.canIUse)
+    }
+    },
   onLoad: function () {
     if (app.globalData.userInfo) {
       this.setData({
@@ -40,12 +53,9 @@ Page({
             hasUserInfo: true
           })
         }
-      })
+      },)
     }
-  },
-  colorChange(event) {
-      this.setData({ active: event.detail });
-  },
+},
   getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
@@ -55,5 +65,6 @@ Page({
     })
   }
 }
+
 );
 

@@ -1,4 +1,8 @@
 /**index.wxss**/
+
+.getinfo{
+  margin-top: 180px;
+}
 .userinfo {
   display: flex;
   flex-direction: column;
@@ -17,5 +21,7 @@
 }
 
 .usermotto {
-  margin-top: 200px;
+  margin-top: 20px;
+  color:#aaa;
+  font-size: 15px;
 }
