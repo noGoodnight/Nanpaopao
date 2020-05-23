@@ -5,7 +5,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    active: 0,
+    fb:[
+      "拯救大熊猫","\n求求好心人555",
+    ],
+    rw:[
+      "拯救小熊猫", "\n求求好心人666",
+    ],
   },
 
   /**
@@ -66,5 +72,14 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+
+  onChange(event) {
+    console.log(event);
+    wx.showToast({
+      title: ` ${event.detail.title}`,
+      icon: 'none',
+    });
+    this.setData({ active: event.detail });
+  },
 })
