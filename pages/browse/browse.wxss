@@ -9,16 +9,3 @@
   background: ghostwhite;
   text-align: center;
 }
-
-.search-button::after {
-  content: " ";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-}
-
-.search {
-  border-radius: 1em;
-  border-color: orange;
-}

@@ -1,14 +1,6 @@
 <!--pages/browse/browse.wxml-->
 
-<van-search class="search"
-  value="{{ value }}" 
-  placeholder="请输入关键词" 
-  shape="round"
-  
-  use-action-slot 
-  bind:change="onChange" 
-  bind:search="onSearch"
->
+<van-search value="{{ value }}" placeholder="请输入关键词" shape="round" use-action-slot bind:change="onChange" bind:search="onSearch">
 	<view class="search-button" slot="action" bind:tap="onClick">搜 索</view>
 </van-search>
 
@@ -16,3 +8,9 @@
 	<van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
 	<van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
 </van-dropdown-menu>
+
+<view wx:for="{{mission}}">
+	<view wx:if="{{item.ableToView}}">
+		{{item.start}} -> {{item.end}}
+	</view>
+</view>
