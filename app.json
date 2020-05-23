@@ -1,11 +1,14 @@
 {
   "usingComponents": {
     "van-tabbar": "@vant/weapp/tabbar/index",
-    "van-tabbar-item": "@vant/weapp/tabbar-item/index"
+    "van-tabbar-item": "@vant/weapp/tabbar-item/index",
+    "van-search": "@vant/weapp/search/index",
+    "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
+    "van-dropdown-item": "@vant/weapp/dropdown-item/index"
   },
   "pages":[
-    "pages/login/login",
     "pages/browse/browse",
+    "pages/login/login",
     "pages/publish/publish",
     "pages/orders/orders",
     "pages/userinfo/userinfo",
