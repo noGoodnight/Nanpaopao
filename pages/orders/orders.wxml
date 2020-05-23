@@ -1,2 +1,3 @@
 <!--pages/orders/orders.wxml-->
-<text>pages/orders/orders.wxml</text>
+  <image class="nju-head"  mode="aspectFit" 
+  src="https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/QQ%E5%9B%BE%E7%89%8720200523104552.jpg" />
