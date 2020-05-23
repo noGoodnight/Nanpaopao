@@ -1,1 +1,11 @@
 /* pages/browse/browse.wxss */
+
+.search-button {
+  min-width: 4em;
+  height: 2em;
+  color: black;
+  line-height: 2em;
+  border-radius: 1em;
+  background: ghostwhite;
+  text-align: center;
+}
