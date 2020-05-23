@@ -1,1 +1,24 @@
 /* pages/browse/browse.wxss */
+
+.search-button {
+  min-width: 4em;
+  height: 2em;
+  color: black;
+  line-height: 2em;
+  border-radius: 1em;
+  background: ghostwhite;
+  text-align: center;
+}
+
+.search-button::after {
+  content: " ";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.search {
+  border-radius: 1em;
+  border-color: orange;
+}

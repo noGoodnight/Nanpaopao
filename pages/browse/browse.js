@@ -5,7 +5,18 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    option1:[
+      {text:"起点",value:0},
+      {text:"仙林",value:1},
+      {text:"鼓楼",value:"2"}
+    ],
+    option2:[
+      {text:"终点",value:0},
+      {text:"仙林",value:1},
+      {text:"鼓楼",value:"2"}
+    ],
+    value1:0,
+    value2:0
   },
 
   /**
