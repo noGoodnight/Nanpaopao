@@ -6,17 +6,23 @@
 
   <van-tabs active="{{ active }}" bind:change="onChange">
    <van-tab title="我的发布">
+   <view wx:for="{{fb}}" wx:key="id">
     <van-card
-      desc="描述信息 {{fb[1]}}"
-      title="任务名称 {{fb[0]}}"
+      desc="{{item.disc}}"
+      title="{{item.name}}"
       thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg"
     />
+   </view>
    </van-tab>
+
    <van-tab title="我的任务">
+   <view wx:for="{{rw}}" wx:key="id">
     <van-card
-      desc="描述信息 {{rw[1]}}"
-      title="任务名称 {{rw[0]}}"
+      desc="{{item.disc}}"
+      title="{{item.name}}"
       thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg"
     />
+   </view>
    </van-tab>
+
 </van-tabs>
