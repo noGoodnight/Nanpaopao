@@ -1,2 +1,63 @@
 <!--pages/userinfo/userinfo.wxml-->
-<text>pages/userinfo/userinfo.wxml</text>
+
+<view class="container">
+  <!-- <view wx:if="{{apiUserInfoMap}}" class="userInfo">
+    <van-image 
+      round
+      width="5rem"
+      height="5rem"
+      src="https://nju-sjim.oss-cn-beijing.aliyuncs.com/%E5%8D%97%E8%B7%91%E8%B7%91/nologin.png"
+    />
+    
+  </view> -->
+  
+    <van-image 
+      round
+      width="5rem"
+      height="5rem"
+      src="https://nju-sjim.oss-cn-beijing.aliyuncs.com/%E5%8D%97%E8%B7%91%E8%B7%91/nologin.png"
+    />
+  <van-button round plain type="primary" >用户登录</van-button>
+    <van-divider/>
+ <van-tabs active="{{active}}" >
+  <van-tab title="个人资料">
+    <van-cell-group>
+      <van-cell title="姓名" value="{{userName}}" bind:click="changeName" is-link/>
+      <van-cell title="学号" value="{{userId}}" bind:click="changeId" is-link/>
+      <van-cell title="认证图片" bind:click="changePictures" is-link/>
+      <van-cell title="总收益" value="{{gain}}"/>
+      
+    </van-cell-group>
+    <van-popup show="{{showName}}" bind:close="closeName" title="修改姓名"> 
+      <van-field
+        value="{{userName}}"
+        placeholder="{{userName}}"
+        bind:change="setName"
+        >
+        
+        </van-field>
+    </van-popup>
+    <van-popup show="{{showId}}" bind:close="closeId" title="修改学号"> 
+      <van-field
+        value="{{userId}}"
+        placeholder="{{userId}}"
+        bind:change="setId"/>
+    </van-popup>
+    <van-popup show="{{showPictures}}" bind:close="closePictures"> 
+     <!-- <van-button icon="plus" type="primary" bind:click="savePictures"> -->
+      <van-uploader file-list="{{pictures}}" bind:after-read="uploadPictures"/>
+    </van-popup> 
+  </van-tab>
+  <van-tab title="已完成">
+    <view wx:for='{{myneed}}' wx:key="id">
+      <van-card
+        title="{{item.name}}"
+        desc="{{item.detail}}"
+        thumb="https://nju-sjim.oss-cn-beijing.aliyuncs.com/%E5%8D%97%E8%B7%91%E8%B7%91/nologin.png"
+        bind:click="cardDetail"
+        />
+    </view>
+    <van-cell title="联系我们" bind:click="contactUs" is-link/>
+  </van-tab>
+</van-tabs>
+</view>
