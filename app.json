@@ -7,8 +7,8 @@
     "van-dropdown-item": "@vant/weapp/dropdown-item/index"
   },
   "pages":[
-    "pages/browse/browse",
     "pages/login/login",
+    "pages/browse/browse",
     "pages/publish/publish",
     "pages/orders/orders",
     "pages/userinfo/userinfo",

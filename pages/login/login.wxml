@@ -11,7 +11,8 @@
   <view class="usermotto">
     <text wx:if= "{{hasUserInfo && canIUse}}"class="user-motto">{{motto}}</text>
   </view>
-  <view>
-   <van-loading wx:if= "{{hasUserInfo && canIUse}}" />
+  
+  <view class = "loading">
+   <van-loading wx:if= "{{hasUserInfo && canIUse}}" size = "20px" vertical>加载中</van-loading>
   </view>
 </view>
