@@ -1,1 +1,5 @@
 /* pages/userinfo/userinfo.wxss */
+van-tabs{
+  width: 100%;
+  
+}
