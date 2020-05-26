@@ -6,23 +6,53 @@ Page({
    */
   data: {
     active: 0,
-    fb:[
-      {name:"拯救大熊猫",disc:"\n求求好心人555"},
-      { name: "拯救大熊猫", disc: "\n求求好心人777" },
-      { name: "拯救大熊猫", disc: "\n求求好心人999" },
-    ],
-    rw:[
-      {name:"拯救小熊猫",disc: "\n求求好心人444",},
-      { name: "拯救小熊猫", disc: "\n求求好心人666", },
-      { name: "拯救小熊猫", disc: "\n求求好心人888", },
-    ],
+    myNickName:"",
+    fb:[],
+    rw:[],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let _this = this;
+    wx.cloud.init({
+      env: 'nanpaopao-po4ge',
+      traceUser: true,
+    })
+    wx.getUserInfo({
+      success: res => {
+        console.log(res.userInfo)
+        let nickName = res.userInfo.nickName
+        _this.setData({
+          myNickName: nickName
+        });
+      }
+    })
+    const db = wx.cloud.database()
+    db.collection('targets').get({
+      success: function (res) {
+        console.log(res.data.length)
+        for (var i = 0; i < res.data.length;i++){
+          console.log(res.data[i])
+          if(res.data[i].pusher==_this.data.myNickName){
+            _this.data.fb.push(res.data[i])
+          }
+          if(res.data[i].puller==_this.data.myNickName){
+            _this.data.rw.push(res.data[i])
+          }
+        }
+        let tmpfb = _this.data.fb
+        let tmprw = _this.data.rw
+        _this.setData({
+          fb:tmpfb,
+          rw:tmprw
+        })
+      }
+    })
+    if (this.userInfoReadyCallback) {
+      this.userInfoReadyCallback(res)
+    }
   },
 
   /**
