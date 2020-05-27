@@ -1,15 +1,6 @@
 <!--pages/publish/publish.wxml-->
 <van-cell-group>
   <van-field
-    value="{{place}}"
-    required
-    clearable
-    label="任务地点"
-    icon="question-o"
-    placeholder="请输入任务地点"
-    bind:click-icon="onClickIcon"
-  />
-  <van-field
     value="{{name}}"
     required
     clearable
@@ -18,38 +9,42 @@
     placeholder="请输入任务名称"
     bind:click-icon="onClickIcon"
   /><van-field
-    value="{{place}}"
+    value="{{ message }}"
     required
-    clearable
-    label="任务地点"
-    icon="question-o"
-    placeholder="请输入任务地点"
-    bind:click-icon="onClickIcon"
-  /><van-field
-    value="{{requirement}}"
-    required
-    clearable
-    label="任务要求"
-    icon="question-o"
-    placeholder="请输入任务要求"
-    bind:click-icon="onClickIcon"
-  /><van-field
+    label="任务简介"
+    type="textarea"
+    placeholder="请输入任务简介"
+    autosize
+    border="{{ false }}"
+  />
+  <van-dropdown-menu>
+	<van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
+	<van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
+</van-dropdown-menu>
+  <van-field
     value="{{money}}"
     required
     clearable
-    label="金额"
+    type="number"
+    label="任务金额"
     icon="question-o"
-    placeholder="请输入金额"
+    placeholder="请输入任务金额（RMB）"
     bind:click-icon="onClickIcon"
-  /><van-field
-    value="{{DDL}}"
-    required
-    clearable
-    label="要求时间"
-    icon="question-o"
-    placeholder="请输入要求时间"
-    bind:click-icon="onClickIcon"
-  /><van-field
+  /></van-cell-group>
+  <view class="section__title">日期</view>
+  <picker mode="date" value="{{date}}" start="2020-09-01" end="2050-09-01" bindchange="bindDateChange">
+    <view class="picker">
+       :{{date}}
+    </view>
+  </picker>
+<view class="section__title">时间</view>
+  <picker mode="time" value="{{time}}" start="07:01" end="22:01" bindchange="bindTimeChange">
+    <view class="picker">
+      :{{time}}
+    </view>
+  </picker>
+  <van-cell-group>
+  <van-field
     value="{{userName}}"
     required
     clearable
@@ -59,12 +54,13 @@
     bind:click-icon="onClickIcon"
   /><van-field
     value="{{phone}}"
+    type="number"
     required
     clearable
     label="发布者联系方式"
     icon="question-o"
-    placeholder="请输入发布者联系方式"
+    placeholder="请输入联系方式（仅接受者可见）"
     bind:click-icon="onClickIcon"
   />
-  <van-button round color="green" size="large">发布</van-button>
 </van-cell-group>
+<button class='w' type="primary">发布</button>
