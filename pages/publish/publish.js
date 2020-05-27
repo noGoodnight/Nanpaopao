@@ -5,9 +5,34 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    value: "",
+    option1: [{
+        text: "全部起点",
+        value: 0
+      },
+      {
+        text: "仙林",
+        value: 1
+      },
+      {
+        text: "鼓楼",
+        value: "2"
+      }
+    ],
+    option2: [{
+        text: "全部终点",
+        value: 0
+      },
+      {
+        text: "仙林",
+        value: 1
+      },
+      {
+        text: "鼓楼",
+        value: "2"
+      }
+    ],
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
