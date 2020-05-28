@@ -15,4 +15,7 @@
   <view class = "loading">
    <van-loading wx:if= "{{hasUserInfo && canIUse}}" size = "20px" vertical>加载中</van-loading>
   </view>
+  <view class="welcome">
+    <image class = "welcome_bg" src="../../images/进入页面.png"></image>
+  </view>
 </view>
