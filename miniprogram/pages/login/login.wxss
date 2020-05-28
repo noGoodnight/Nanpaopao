@@ -29,3 +29,17 @@
 .loading{
   margin-top: 50px;
 }
+
+.welcome{
+  position: relative;
+}
+.welcome_bg {
+  height: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  width: 100%;
+  z-index: -1;
+}
