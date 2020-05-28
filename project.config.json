@@ -3,6 +3,7 @@
 	"packOptions": {
 		"ignore": []
 	},
+	"miniprogramRoot":"miniprogram/",
 	"cloudfunctionRoot": "cloudfunctions/",
 	"setting": {
 		"urlCheck": true,
@@ -35,6 +36,7 @@
 	"isGameTourist": false,
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
 	"condition": {
 		"search": {
 			"current": -1,
