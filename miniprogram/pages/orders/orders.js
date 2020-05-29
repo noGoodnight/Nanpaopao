@@ -30,7 +30,7 @@ Page({
         });
       }
     })
-    console.log(_this.myNickName)
+    console.log("我的名字"+_this.myNickName)
     wx.login({
       //获取code
       success: function (res) {
@@ -43,7 +43,7 @@ Page({
               myOpenId: openID
           })
             const db = wx.cloud.database()
-            db.collection('targets').get({
+            db.collection('orders').get({
               success: function (res) {
                 console.log(res.data.length)
                 for (var i = 0; i < res.data.length; i++) {
@@ -52,7 +52,7 @@ Page({
                   if (res.data[i].pusherId == _this.data.myOpenId) {
                     _this.data.fb.push(res.data[i])
                   }
-                  if (res.data[i].pullerId == _this.data.myOpenId) {
+                  if (res.data[i].pullerId == _this.data.myOpenId && res.data[i].isFinished == 0) {
                     _this.data.rw.push(res.data[i])
                   }
                 }
