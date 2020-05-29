@@ -1,3 +1,12 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "van-tabbar": "@vant/weapp/tabbar/index",
+    "van-tabbar-item": "@vant/weapp/tabbar-item/index",
+    "van-search": "@vant/weapp/search/index",
+    "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
+    "van-dropdown-item": "@vant/weapp/dropdown-item/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-picker": "@vant/weapp/picker/index"
+  }
 }
