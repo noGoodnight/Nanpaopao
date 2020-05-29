@@ -9,47 +9,68 @@ Page({
     myNickName:"",
     fb:[],
     rw:[],
+    myOpenId:"",
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let _this = this;
+    let _this = this
+    
     wx.cloud.init({
-      env: 'nanpaopao-po4ge',
+      env: 'test-g55yu',
       traceUser: true,
     })
     wx.getUserInfo({
       success: res => {
-        console.log(res.userInfo)
         let nickName = res.userInfo.nickName
         _this.setData({
           myNickName: nickName
         });
       }
     })
-    const db = wx.cloud.database()
-    db.collection('targets').get({
+    console.log(_this.myNickName)
+    wx.login({
+      //获取code
       success: function (res) {
-        console.log(res.data.length)
-        for (var i = 0; i < res.data.length;i++){
-          console.log(res.data[i])
-          if(res.data[i].pusher==_this.data.myNickName){
-            _this.data.fb.push(res.data[i])
-          }
-          if(res.data[i].puller==_this.data.myNickName){
-            _this.data.rw.push(res.data[i])
-          }
-        }
-        let tmpfb = _this.data.fb
-        let tmprw = _this.data.rw
-        _this.setData({
-          fb:tmpfb,
-          rw:tmprw
-        })
+        var code = res.code; //返回code
+        wx.cloud.callFunction({ name: 'login', data: { code: code }, 
+          success: (res) =>{
+          let openID = res.result.userInfo.openId
+          
+          _this.setData({
+              myOpenId: openID
+          })
+            const db = wx.cloud.database()
+            db.collection('targets').get({
+              success: function (res) {
+                console.log(res.data.length)
+                for (var i = 0; i < res.data.length; i++) {
+                  console.log(res.data[i].pusherId)
+                  console.log(_this.data.myOpenId)
+                  if (res.data[i].pusherId == _this.data.myOpenId) {
+                    _this.data.fb.push(res.data[i])
+                  }
+                  if (res.data[i].pullerId == _this.data.myOpenId) {
+                    _this.data.rw.push(res.data[i])
+                  }
+                }
+                let tmpfb = _this.data.fb
+                let tmprw = _this.data.rw
+                _this.setData({
+                  fb: tmpfb,
+                  rw: tmprw
+                })
+              }
+            })
+            }, 
+           fail: console.error })
       }
     })
+    
+    
+    
     if (this.userInfoReadyCallback) {
       this.userInfoReadyCallback(res)
     }
@@ -59,7 +80,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+   
   },
 
   /**

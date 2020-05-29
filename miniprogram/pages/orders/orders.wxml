@@ -4,15 +4,13 @@
 
   <van-divider  />
 
-  <view wx:for="{{fb}}" wx:key="id">{{item._id}}</view>
-
   <van-tabs active="{{ active }}" bind:change="onChange">
    <van-tab title="我的发布">
    <view wx:for="{{fb}}">
     <van-card
-      desc="{{item.disc}}"
+      desc="{{item.description}}"
       title="{{item.title}}"
-      thumb="{{item.url}}"
+      thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg"
     />
    </view>
    </van-tab>
@@ -20,11 +18,10 @@
    <van-tab title="我的任务">
    <view wx:for="{{rw}}" wx:key="id">
     <van-card
-      desc="{{item.disc}}"
+      desc="{{item.description}}"
       title="{{item.title}}"
-      thumb="{{item.url}}"
+      thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg"
     />
    </view>
    </van-tab>
-
 </van-tabs>
