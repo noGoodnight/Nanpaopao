@@ -3,12 +3,4 @@
 	<view class="cells" wx:for='{{myneed}}' wx:key="id">
 		<van-card title="{{item.name}}" desc="{{item.detail}}" thumb="https://nju-sjim.oss-cn-beijing.aliyuncs.com/%E5%8D%97%E8%B7%91%E8%B7%91/nologin.png" bind:click="cardDetail" />
 	</view>
-	<view class="foot">
-		<van-tabbar active="{{ active }}" active-color="#07c160" inactive-color="#000" bind:change="changeTab">
-			<van-tabbar-item icon="orders-o">浏览</van-tabbar-item>
-			<van-tabbar-item icon="add-o">发布</van-tabbar-item>
-			<van-tabbar-item icon="balance-list-o">任务</van-tabbar-item>
-			<van-tabbar-item icon="setting-o">个人</van-tabbar-item>
-		</van-tabbar>
-	</view>
 </view>

@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "van-tabbar": "@vant/weapp/tabbar/index",
+<<<<<<< HEAD
     "van-tabbar-item": "@vant/weapp/tabbar-item/index",
     "van-search": "@vant/weapp/search/index",
     "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
@@ -9,6 +10,9 @@
     "van-button": "@vant/weapp/button/index",
     "van-picker": "@vant/weapp/picker/index",
     "van-datetime-picker": "@vant/weapp/datetime-picker/index"
+=======
+    "van-tabbar-item": "@vant/weapp/tabbar-item/index"
+>>>>>>> a197eb05cb9ee044ca74ee6762e7982e5fec48d9
   },
   "pages":[
     "pages/login/login",
