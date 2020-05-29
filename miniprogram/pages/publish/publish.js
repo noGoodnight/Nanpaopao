@@ -5,33 +5,23 @@ Page({
    * 页面的初始数据
    */
   data: {
-    value: "",
-    option1: [{
-        text: "全部起点",
-        value: 0
-      },
-      {
-        text: "仙林",
-        value: 1
-      },
-      {
-        text: "鼓楼",
-        value: "2"
-      }
-    ],
-    option2: [{
-        text: "全部终点",
-        value: 0
-      },
-      {
-        text: "仙林",
-        value: 1
-      },
-      {
-        text: "鼓楼",
-        value: "2"
-      }
-    ],
+    minDate: new Date().getTime(),
+    maxDate: new Date(new Date().getTime()+91*24*3600*1000).getTime(),
+    currentDate: new Date().getTime(),
+    column:['其他','物品取送','事情帮办'],
+    show:false,
+  },
+  showPopup() {
+    this.setData({ show: true });
+  },
+
+  onClose() {
+    this.setData({ show: false });
+  },
+  onInput(e) {
+    this.setData({
+      currentDate: e.detail,
+    });
   },
   /**
    * 生命周期函数--监听页面加载
