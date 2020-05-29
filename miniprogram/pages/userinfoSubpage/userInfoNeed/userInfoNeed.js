@@ -1,14 +1,43 @@
-// pages/userinfo/userinfo.js
-const app = getApp()
+// pages/userInfoFile/index.js
 Page({
-
+  
   /**
    * 页面的初始数据
    */
   data: {
-      userInfo:{},
-      useravatarUrl:'',
-      gender:'',
+      showName:false,
+      showPictures:false,
+      showId:false,
+      userName:'柳斯宁',
+      userId:'181250093',
+      activeNames:['1'],
+      gain:0,
+      myneed:[
+        {name:'需求1',detail:'细节',award:'100'},
+        {name:'需求2',detail:'细节',award:'100'},
+        {name:'需求3',detail:'细节',award:'100'},
+      ],
+      pictures:[
+        {
+          url:"http://img2.imgtn.bdimg.com/it/u=3536962002,2703222804&fm=26&gp=0.jpg",
+          name:"cat1"
+        },
+        {
+          url:"http://img5.imgtn.bdimg.com/it/u=187649172,1956357065&fm=26&gp=0.jpg",
+          name:"cat2"
+        },
+        {
+          url:"http://img5.imgtn.bdimg.com/it/u=2069266298,515098533&fm=26&gp=0.jpg",
+          name:"cat3"
+        }
+      ],
+      list:[
+        "/pages/browse/browse",
+        "/pages/publish/publish",
+        "/pages/orders/orders",
+        "/pages/userinfo/userinfo"
+
+      ]
   },
   changePictures(){
       this.setData({
@@ -61,36 +90,22 @@ Page({
       cancelColor: 'cancelColor',
     })
   },
-  
+  changeTab:function (event){
+      wx.switchTab({url: this.data.list[event.detail]})
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      // this.userInfo=app.globalData.userInfo
-      console.log(app.globalData.userInfo)
-      this.setData({
-        userInfo:app.globalData.userInfo
-      })
-    
-      if (app.globalData.userInfo.gender){
-        this.setData({
-          gender:"男"
-        }) 
-      }
-      else{
-        this.setData({
-          gender:"女"
-        }) 
-      }
+
   },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
-    },
-    
-  
+
+  },
 
   /**
    * 生命周期函数--监听页面显示

@@ -1,0 +1,33 @@
+<view class="container">
+	<image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover" />
+	<!-- <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image> -->
+	<text class="userinfo-nickname">{{userInfo.nickName}}</text>
+
+	<van-cell-group class="cells">
+		<van-cell title="姓名" value="{{privateInfo.userName}}" icon="user-circle-o" bind:click="changeName" is-link />
+		<van-cell title="学号" value="{{privateInfo.studentId}}" icon="idcard" bind:click="changeId" is-link />
+		<van-cell title="认证图片" icon="photo-o" bind:click="changePictures" is-link />
+
+	</van-cell-group>
+	<van-popup show="{{showName}}" bind:close="closeName" title="修改姓名">
+		<van-field value="{{privateInfo.userName}}" placeholder="{{privateInfo.userName}}" bind:change="setName">
+
+		</van-field>
+	</van-popup>
+	<van-popup show="{{showId}}" bind:close="closeId" title="修改学号">
+		<van-field value="{{privateInfo.studentId}}" placeholder="{{privateInfo.studentId}}" bind:change="setId" />
+	</van-popup>
+	<van-popup v-modal="isShow" position="top" show="{{showPictures}}" bind:close="closePictures" class="overlay">
+		<!-- <van-button icon="plus" type="primary" bind:click="savePictures"> -->
+		<button bindtap="addImg" class="addPng" type="default">添加图片</button>
+	</van-popup>
+    <button class="confirm" type="info" bind:click="comfirmInfo">确定</button>
+</view>
+<view class="foot">
+	<van-tabbar active="{{ active }}" active-color="#07c160" inactive-color="#000" bind:change="changeTab">
+		<van-tabbar-item icon="orders-o">浏览</van-tabbar-item>
+		<van-tabbar-item icon="add-o">发布</van-tabbar-item>
+		<van-tabbar-item icon="balance-list-o">任务</van-tabbar-item>
+		<van-tabbar-item icon="setting-o">个人</van-tabbar-item>
+	</van-tabbar>
+</view>

@@ -1,0 +1,6 @@
+.cells{
+  width: 100%;
+}
+.container{
+  padding: 0rpx;
+}

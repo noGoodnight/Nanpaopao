@@ -1,5 +1,3 @@
-/* pages/userinfo/userinfo.wxss */
-
 .cells{
   width: 100%;
 }
@@ -8,4 +6,13 @@ image{
   height: 5rem;
   margin-bottom: 1rem;
   border-radius: 50%;
+}
+.overlay{
+  height: 100%;
+  padding-top: 5rem;
+}
+.confirm{
+  width: 80%;
+  bottom:7rem;
+  position:fixed;
 }
