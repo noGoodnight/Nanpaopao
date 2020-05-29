@@ -21,12 +21,6 @@ Page({
       showPictures:false,
       showId:false,
       activeNames:['1'],
-      list:[
-        "/pages/browse/browse",
-        "/pages/publish/publish",
-        "/pages/orders/orders",
-        "/pages/userinfo/userinfo"
-      ]
   },
   changePictures(){
       this.setData({

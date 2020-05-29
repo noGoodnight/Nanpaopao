@@ -31,13 +31,6 @@ Page({
           name:"cat3"
         }
       ],
-      list:[
-        "/pages/browse/browse",
-        "/pages/publish/publish",
-        "/pages/orders/orders",
-        "/pages/userinfo/userinfo"
-
-      ]
   },
   changePictures(){
       this.setData({
