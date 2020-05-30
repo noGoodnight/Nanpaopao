@@ -4,14 +4,29 @@
 
   <van-divider  />
 
+      <wxs module="m1">
+      var getState = function(pullerId,isFinished) {
+        var state = "进行中";
+        if(pullerId==="null"){
+          state = "已发布";
+        } else if(isFinished===1){
+          state = "已完成";
+        }  
+        return state;
+      }
+      module.exports.getState = getState;
+    </wxs>
+
   <van-tabs active="{{ active }}" bind:change="onChange">
    <van-tab title="我的发布">
-   <view wx:for="{{fb}}">
+   <view wx:for="{{fb}}" wx:key="id">
     <van-card
+      tag="{{m1.getState(item.pullerId,item.isFinished)}}"
       desc="{{item.description}}"
       title="{{item.title}}"
       thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg"
-    />
+    >
+    </van-card>
    </view>
    </van-tab>
 
@@ -21,7 +36,25 @@
       desc="{{item.description}}"
       title="{{item.title}}"
       thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg"
-    />
+    >
+      <view slot="footer">
+        <van-button size="mini" type="warning" round="true" is-link bind:click= "showPopup" data-id="{{item._id}}">-  确 认 完 成    -</van-button>
+      </view>
+
+    </van-card>
    </view>
    </van-tab>
 </van-tabs>
+
+      <van-popup 
+      show="{{ show }}" 
+      closeable
+
+      position="bottom"
+      custom-style="height:25%;width:100%;" 
+      bind:close="onClose">
+        <view class='blank'></view>
+        <text class="context">确 认 要 提 交 吗 ？</text>
+        <view class='blank'></view>
+        <van-button class='context' type="primary" bind:click= "submit"> 确 认 完 成 </van-button>
+      </van-popup>

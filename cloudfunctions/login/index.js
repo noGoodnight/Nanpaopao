@@ -3,8 +3,11 @@
 const cloud = require('wx-server-sdk')
 
 cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
+  env: 'test-g55yu',
+  traceUser: true,
 })
+
+const db = cloud.database();
 
 exports.main = (event, context, callback) => {
   const wxContext = cloud.getWXContext()
@@ -22,9 +25,9 @@ exports.main = (event, context, callback) => {
         success: function (res) {
           var openid1 = res.data.openid //返回openid
           console.log('openid为' + openid1);
-          return {
-            openid1
-          }
         }
       })
+  return {
+    openid1: openid1
+  }
 };

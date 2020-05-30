@@ -5,11 +5,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-    active: 0,
+    show:false,
+    active: 1,
     myNickName:"",
     fb:[],
     rw:[],
     myOpenId:"",
+    tmpId:"",
   },
 
   /**
@@ -30,7 +32,6 @@ Page({
         });
       }
     })
-    console.log("我的名字"+_this.myNickName)
     wx.login({
       //获取code
       success: function (res) {
@@ -45,10 +46,7 @@ Page({
             const db = wx.cloud.database()
             db.collection('orders').get({
               success: function (res) {
-                console.log(res.data.length)
                 for (var i = 0; i < res.data.length; i++) {
-                  console.log(res.data[i].pusherId)
-                  console.log(_this.data.myOpenId)
                   if (res.data[i].pusherId == _this.data.myOpenId) {
                     _this.data.fb.push(res.data[i])
                   }
@@ -137,4 +135,32 @@ Page({
     });
     this.setData({ active: event.detail });
   },
+
+  showPopup:function(e){
+    let query = e.currentTarget.dataset['id'];
+    this.setData({ 
+      show: true ,
+      tmpId:query
+      });
+  },
+
+  onClose() {
+    this.setData({ show: false });
+  },
+
+  submit:function(e){
+    let _this = this
+    wx.cloud.init({
+      env: 'test-g55yu',
+      traceUser: true,
+    })
+    const db = wx.cloud.database()
+    console.log(this.data.tmpId)
+    wx.cloud.callFunction({
+      name: 'update-order-isFinished', data: { _id: this.data.tmpId }, 
+      success: (res) => {
+      },
+      fail: console.error
+    })
+  }
 })
