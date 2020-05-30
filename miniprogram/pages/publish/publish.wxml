@@ -1,39 +1,39 @@
 <!--pages/publish/publish.wxml-->
 <van-cell-group>
   <van-field
-    value="{{name}}"
     left-icon="edit"
     label="任务名称"
     placeholder="请输入任务名称"
-    bind:click-icon="onClickIcon"
+    bind:blur="inputTitle"
+    required
   />
   <van-field
-    value="{{message}}"
     left-icon="label-o"
     label="任务简介"
     type="textarea"
     placeholder="请输入任务简介"
+    bind:blur="inputDscpt"
     autosize
   />
   <van-field
-    value="{{money}}"
     type="number"
     left-icon="bill-o"
     label="任务金额"
     placeholder="请输入金额(仅限数字）"
-    bind:click-icon="onClickIcon"
+    bind:blur="inputAmount"
+    required
   />
  <van-field
-    value="{{contact}}"
     type="textarea"
     left-icon="phone-o"
     label="联系方式"
     placeholder="可选择微信号,QQ号,电话号"
-    bind:click-icon="onClickIcon"
+    bind:blur="inputContact"
+    required
     autosize
   />
 
-  <van-field value="" left-icon="location-o" label="任务起点" disabled/>
+  <van-field value="" left-icon="location-o" label="任务起点" required disabled/>
 
   <van-radio-group value="{{ start }}" bind:change="placeChange">
     <van-cell title="仙林" clickable data-name="仙林" bind:click="startClick">
@@ -44,7 +44,7 @@
     </van-cell>
   </van-radio-group>
 
-  <van-field value="" left-icon="location-o" label="任务终点" disabled/>
+  <van-field value="" left-icon="location-o" label="任务终点" required disabled/>
   <van-radio-group value="{{ end }}" bind:change="placeChange">
     <van-cell title="仙林" clickable data-name="仙林" bind:click="endClick">
       <van-radio slot="right-icon" name = "仙林"/>
@@ -55,7 +55,7 @@
   </van-radio-group>
 
   
-  <van-field value="" label="任务类型" left-icon="label-o" disabled/>
+  <van-field value="" label="任务类型" left-icon="label-o" required disabled/>
   <van-radio-group value="{{ type }}" bind:change="placeChange">
     <van-cell title="取送物件" clickable data-name="1" bind:click="typeClick">
       <van-radio slot="right-icon" name = "1"/>
@@ -69,7 +69,7 @@
   </van-radio-group>
 
 
-<van-cell title="任务DDL" icon="clock-o" is-link bind:click="showPopup"/>
+<van-cell title="任务DDL" icon="clock-o" required is-link bind:click="showPopup"/>
 <van-popup
   show="{{ showTimePicker }}"
   round
@@ -93,3 +93,12 @@
 <button class='commit' plain size="small" type="primary" bind:tap="showConfirm" >
 发布
 </button>
+<van-dialog
+  title="提示"
+  message = "您确定要发布该任务吗？"
+  show="{{ showDialog }}"
+  show-cancel-button
+  bind:close="closeDialog"
+  bind:confirm="addOrder"
+>
+</van-dialog>

@@ -26,14 +26,41 @@ Page({
       }
       return value;
     },
+    title:"",
+    showDialog:false,
     showTimePicker:false,
     start:"",
     end:"",
     amount:Number,
-    ddl:String,
-    description:String,
-    type:Number,
-    isFinished:0
+    ddl:"",
+    description:"",
+    contact:"",
+    type:"",
+    isFinished:false
+  },
+  inputTitle(event){
+    this.setData({
+      title:event.detail.value
+    });
+    console.log("Title: "+this.data.title)
+  },
+  inputDscpt(event){
+    this.setData({
+      description:event.detail.value
+    });
+    console.log("Description: "+this.data.description)
+  },
+  inputAmount(event){
+    this.setData({
+      amount:parseInt(event.detail.value)
+    });
+    console.log("Amount: "+this.data.amount)
+  },
+  inputContact(event){
+    this.setData({
+      contact:event.detail.value
+    });
+    console.log("Contact: "+this.data.contact)
   },
   placeChange(event) {
     this.setData({
@@ -92,7 +119,79 @@ Page({
     this.data.ddl = year+"-"+month+"-"+day+" "+hour+":"+min
     console.log(this.data.ddl)
     this.closePopup();
-},
+  },
+  showConfirm(){
+    this.setData({showDialog:true});
+  },
+  closeDialog(){
+    this.setData({showDialog:false});
+  },
+  addOrder(){
+    console.log("添加order");
+    if(this.data.title == ""){
+      wx.showToast({
+        title: '请输入有效的任务名称',
+        mask:true,
+        icon:"none"
+      });
+      return
+    }
+    else if(this.data.amount == ""||'number'!= typeof this.data.amount||isNaN(this.data.amount)){
+      console.log(typeof this.data.amount)
+      wx.showToast({
+        title: '请输入有效的任务金额',
+        mask:true,
+        icon:"none"
+      });
+      return
+    }
+    else if(this.data.contact == ""){
+      wx.showToast({
+        title: '请输入有效的联系方式',
+        mask:true,
+        icon:"none"
+      });
+      return
+    }
+    else if(this.data.start == ""){
+      wx.showToast({
+        title: '请选择有效的任务起点',
+        mask:true,
+        icon:"none"
+      });
+      return
+    }
+    else if(this.data.end == ""){
+      wx.showToast({
+        title: '请选择有效的任务终点',
+        mask:true,
+        icon:"none"
+      });
+      return
+    }
+    else if(this.data.type == ""){
+      wx.showToast({
+        title: '请选择有效的任务类型',
+        mask:true,
+        icon:"none"
+      });
+      return
+    }
+    else if(this.data.ddl == ""){
+      wx.showToast({
+        title: '请输入有效的任务DDL',
+        mask:true,
+        icon:"none"
+      });
+      return
+    }
+    else{
+      wx.showToast({
+        title: '添加成功',
+        mask:true,
+      });
+    }
+  },
 
 
 
