@@ -88,6 +88,7 @@
   formatter="{{ formatter }}"
 />
 </van-popup>
+<van-cell></van-cell>
 </van-cell-group>
 <button class='commit' plain size="small" type="primary" bind:tap="showConfirm" >
 发布
