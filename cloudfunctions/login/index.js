@@ -16,7 +16,7 @@ exports.main = (event, context, callback) => {
       console.log(code);
   var appId = 'wxebff223895668861';
   var secret = '5f9dc17546efa7aebfbfcab2fe37d59d';
-      wx.request({
+      request({
         url: 'https://api.weixin.qq.com/sns/jscode2session?appid=' + appId + '&secret=' + secret + '&js_code=' + code + '&grant_type=authorization_code',
         data: {},
         header: {

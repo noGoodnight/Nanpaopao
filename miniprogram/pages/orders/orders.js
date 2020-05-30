@@ -36,8 +36,10 @@ Page({
       //获取code
       success: function (res) {
         var code = res.code; //返回code
+        console.log(code)
         wx.cloud.callFunction({ name: 'login', data: { code: code }, 
-          success: (res) =>{
+          success: function(res) {
+            console.log(res)
           let openID = res.result.userInfo.openId
           
           _this.setData({
@@ -157,13 +159,31 @@ Page({
     const db = wx.cloud.database()
     console.log(this.data.tmpId)
     wx.cloud.callFunction({
-      name: 'update-order-isFinished', data: { _id: this.data.tmpId }, 
+      name: 'new-update-order-isFinished', data: { _id: this.data.tmpId }, 
       success: (res) => {
+        console.log(res)
+        db.collection('orders').get({
+          success: function (res) {
+            var list1 = []
+            var list2 = []
+            for (var i = 0; i < res.data.length; i++) {
+              if (res.data[i].pusherId == _this.data.myOpenId) {
+                list1.push(res.data[i])
+              }
+              if (res.data[i].pullerId == _this.data.myOpenId && res.data[i].isFinished == 0) {
+                list2.push(res.data[i])
+              }
+            }
+            _this.setData({
+              fb: list1,
+              rw: list2,
+              show:false
+            })
+          }
+        })
       },
       fail: console.error
     })
-    this.setData({
-      show:false
-    })
+
   }
 })
