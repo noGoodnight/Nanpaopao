@@ -162,5 +162,8 @@ Page({
       },
       fail: console.error
     })
+    this.setData({
+      show:false
+    })
   }
 })
