@@ -28,9 +28,39 @@
     type="number"
     left-icon="phone-o"
     label="联系方式"
-    placeholder="请输入联系方式（仅接受者可见）"
+    placeholder="请输入联系方式"
     bind:click-icon="onClickIcon"
   />
+  <van-field value="" left-icon="location-o" label="任务起点" placeholder="" disabled />
+  <van-radio-group value="{{ radio }}" bind:change="onChange">
+    <van-cell title="仙林" value-class="value-class" clickable data-name="1" bind:click="onClick">
+      <van-radio name="1" position="right" />
+    </van-cell>
+    <van-cell title="鼓楼" value-class="value-class" clickable data-name="2" bind:click="onClick">
+      <van-radio name="2" />
+    </van-cell>
+  </van-radio-group>
+  <van-field value="" left-icon="location-o" label="任务终点" placeholder="" disabled />
+  <van-radio-group value="{{ radio }}" bind:change="onChange">
+    <van-cell title="仙林" value-class="value-class" clickable data-name="1" bind:click="onClick">
+      <van-radio name="1" position="right" />
+    </van-cell>
+    <van-cell title="鼓楼" value-class="value-class" clickable data-name="2" bind:click="onClick">
+      <van-radio name="2" />
+    </van-cell>
+  </van-radio-group>
+  <van-field value="" left-icon="label-o" label="任务类型" placeholder="" disabled />
+  <van-radio-group value="{{ radio }}" bind:change="onChange">
+    <van-cell title="取送物件" value-class="value-class" clickable data-name="1" bind:click="onClick">
+      <van-radio name="1" position="right" />
+    </van-cell>
+    <van-cell title="事务托办" value-class="value-class" clickable data-name="2" bind:click="onClick">
+      <van-radio name="2" />
+    </van-cell>
+    <van-cell title="其他" value-class="value-class" clickable data-name="3" bind:click="onClick">
+      <van-radio name="3" />
+    </van-cell>
+  </van-radio-group>
   <van-datetime-picker
   type="datetime"
   title="任务ddl"
@@ -40,22 +70,6 @@
   bind:input="onInput"
 />
 </van-cell-group>
-<text>起点</text>
-<van-radio-group value="{{ radio }}" disabled bind:change="onChange">
-  <van-radio name="1">仙林</van-radio>
-  <van-radio name="2">鼓楼</van-radio>
-</van-radio-group>
-<text>终点</text>
-<van-radio-group value="{{ radio }}" disabled bind:change="onChange">
-  <van-radio name="1">仙林</van-radio>
-  <van-radio name="2">鼓楼</van-radio>
-</van-radio-group>
-<text>任务类型</text>
-<van-radio-group value="{{ radio }}" disabled bind:change="onChange">
-  <van-radio name="1">取送物件</van-radio>
-  <van-radio name="2">事情应答</van-radio>
-  <van-radio name="3">其他</van-radio>
-</van-radio-group>
 <button class='w' size="small" type="primary" >
 发布
 </button>
