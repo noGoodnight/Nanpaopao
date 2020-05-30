@@ -6,70 +6,89 @@
     label="任务名称"
     placeholder="请输入任务名称"
     bind:click-icon="onClickIcon"
-  /><van-field
-    value="{{ message }}"
+  />
+  <van-field
+    value="{{message}}"
     left-icon="label-o"
     label="任务简介"
     type="textarea"
     placeholder="请输入任务简介"
     autosize
-    border="{{ false }}"
   />
   <van-field
     value="{{money}}"
     type="number"
     left-icon="bill-o"
     label="任务金额"
-    placeholder="请输入任务金额（RMB）"
+    placeholder="请输入金额(仅限数字）"
     bind:click-icon="onClickIcon"
   />
  <van-field
-    value="{{phone}}"
-    type="number"
+    value="{{contact}}"
+    type="textarea"
     left-icon="phone-o"
     label="联系方式"
-    placeholder="请输入联系方式"
+    placeholder="可选择微信号,QQ号,电话号"
     bind:click-icon="onClickIcon"
+    autosize
   />
-  <van-field value="" left-icon="location-o" label="任务起点" placeholder="" disabled />
-  <van-radio-group value="{{ radio }}" bind:change="onChange">
-    <van-cell title="仙林" value-class="value-class" clickable data-name="1" bind:click="onClick">
-      <van-radio name="1" position="right" />
+
+  <van-field value="" left-icon="location-o" label="任务起点" disabled/>
+
+  <van-radio-group value="{{ start }}" bind:change="placeChange">
+    <van-cell title="仙林" clickable data-name="仙林" bind:click="startClick">
+      <van-radio slot="right-icon" name = "仙林"/>
     </van-cell>
-    <van-cell title="鼓楼" value-class="value-class" clickable data-name="2" bind:click="onClick">
-      <van-radio name="2" />
-    </van-cell>
-  </van-radio-group>
-  <van-field value="" left-icon="location-o" label="任务终点" placeholder="" disabled />
-  <van-radio-group value="{{ radio }}" bind:change="onChange">
-    <van-cell title="仙林" value-class="value-class" clickable data-name="1" bind:click="onClick">
-      <van-radio name="1" position="right" />
-    </van-cell>
-    <van-cell title="鼓楼" value-class="value-class" clickable data-name="2" bind:click="onClick">
-      <van-radio name="2" />
+    <van-cell title="鼓楼" clickable data-name="鼓楼" bind:click="startClick">
+      <van-radio slot="right-icon" name = "鼓楼"/>
     </van-cell>
   </van-radio-group>
-  <van-field value="" left-icon="label-o" label="任务类型" placeholder="" disabled />
-  <van-radio-group value="{{ radio }}" bind:change="onChange">
-    <van-cell title="取送物件" value-class="value-class" clickable data-name="1" bind:click="onClick">
-      <van-radio name="1" position="right" />
+
+  <van-field value="" left-icon="location-o" label="任务终点" disabled/>
+  <van-radio-group value="{{ end }}" bind:change="placeChange">
+    <van-cell title="仙林" clickable data-name="仙林" bind:click="endClick">
+      <van-radio slot="right-icon" name = "仙林"/>
     </van-cell>
-    <van-cell title="事务托办" value-class="value-class" clickable data-name="2" bind:click="onClick">
-      <van-radio name="2" />
-    </van-cell>
-    <van-cell title="其他" value-class="value-class" clickable data-name="3" bind:click="onClick">
-      <van-radio name="3" />
+    <van-cell title="鼓楼" clickable data-name="鼓楼" bind:click="endClick">
+      <van-radio slot="right-icon" name = "鼓楼"/>
     </van-cell>
   </van-radio-group>
+
+  
+  <van-field value="" label="任务类型" left-icon="label-o" disabled/>
+  <van-radio-group value="{{ type }}" bind:change="placeChange">
+    <van-cell title="取送物件" clickable data-name="1" bind:click="typeClick">
+      <van-radio slot="right-icon" name = "1"/>
+    </van-cell>
+    <van-cell title="事务托办" clickable data-name="2" bind:click="typeClick">
+      <van-radio slot="right-icon" name = "2"/>
+    </van-cell>
+    <van-cell title="其他" clickable data-name="3" bind:click="typeClick">
+      <van-radio slot="right-icon" name = "3"/>
+    </van-cell>
+  </van-radio-group>
+
+
+<van-cell title="任务DDL" icon="clock-o" is-link bind:click="showPopup"/>
+<van-popup
+  show="{{ showTimePicker }}"
+  round
+  position="bottom"
+  custom-style="height: 40%"
+  bind:close="closePopup"
+>
   <van-datetime-picker
   type="datetime"
   title="任务ddl"
   value="{{ currentDate }}"
   min-date="{{ minDate }}"
   max-date="{{ maxDate }}"
-  bind:input="onInput"
+  bind:confirm = "inputDDL"
+  bind:cancel = "closePopup"
+  formatter="{{ formatter }}"
 />
+</van-popup>
 </van-cell-group>
-<button class='w' size="small" type="primary" >
+<button class='commit' plain size="small" type="primary" bind:tap="showConfirm" >
 发布
 </button>
