@@ -11,13 +11,10 @@ const db = cloud.database();
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
-try {
+  try {
     //这里的update依据是event._id
     console.log(event._id)
-    return await db.collection("orders").doc(event._id).update({
-      data: {
-        isFinished: true
-      }
+    return await db.collection("orders").doc(event._id).remove({
     })
   } catch (e) {
     console.error(e)

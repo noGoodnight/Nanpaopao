@@ -6,7 +6,8 @@ Page({
    */
   data: {
     show:false,
-    active: 1,
+    show2: false,
+    active: 0,
     myNickName:"",
     fb:[],
     rw:[],
@@ -52,7 +53,7 @@ Page({
                   if (res.data[i].pusherId == _this.data.myOpenId) {
                     _this.data.fb.push(res.data[i])
                   }
-                  if (res.data[i].pullerId == _this.data.myOpenId && res.data[i].isFinished == 0) {
+                  if (res.data[i].pullerId == _this.data.myOpenId && res.data[i].isFinished == false) {
                     _this.data.rw.push(res.data[i])
                   }
                 }
@@ -145,6 +146,14 @@ Page({
       tmpId:query
       });
   },
+  
+  showPopup2: function (e) {
+    let query = e.currentTarget.dataset['id'];
+    this.setData({
+      show2: true,
+      tmpId: query
+    });
+  },
 
   onClose() {
     this.setData({ show: false });
@@ -170,7 +179,7 @@ Page({
               if (res.data[i].pusherId == _this.data.myOpenId) {
                 list1.push(res.data[i])
               }
-              if (res.data[i].pullerId == _this.data.myOpenId && res.data[i].isFinished == 0) {
+              if (res.data[i].pullerId == _this.data.myOpenId && res.data[i].isFinished == false) {
                 list2.push(res.data[i])
               }
             }
@@ -178,6 +187,43 @@ Page({
               fb: list1,
               rw: list2,
               show:false
+            })
+          }
+        })
+      },
+      fail: console.error
+    })
+
+  },
+
+    myDelete: function (e) {
+    let _this = this
+    wx.cloud.init({
+      env: 'test-g55yu',
+      traceUser: true,
+    })
+    const db = wx.cloud.database()
+    console.log(this.data.tmpId)
+    wx.cloud.callFunction({
+      name: 'deleteOrder', data: { _id: this.data.tmpId },
+      success: (res) => {
+        console.log(res)
+        db.collection('orders').get({
+          success: function (res) {
+            var list1 = []
+            var list2 = []
+            for (var i = 0; i < res.data.length; i++) {
+              if (res.data[i].pusherId == _this.data.myOpenId) {
+                list1.push(res.data[i])
+              }
+              if (res.data[i].pullerId == _this.data.myOpenId && res.data[i].isFinished == false) {
+                list2.push(res.data[i])
+              }
+            }
+            _this.setData({
+              fb: list1,
+              rw: list2,
+              show2: false
             })
           }
         })
