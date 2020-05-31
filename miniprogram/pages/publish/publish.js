@@ -1,4 +1,5 @@
 // pages/publish/publish.js
+const app = getApp()
 Page({
 
   /**
@@ -186,10 +187,29 @@ Page({
       return
     }
     else{
-      wx.showToast({
-        title: '添加成功',
-        mask:true,
-      });
+      wx.cloud.callFunction({
+        // 要调用的云函数名称
+        name: 'addOrder',
+        // 传递给云函数的event参数
+        data: {
+          title:this.data.title,
+          amount:this.data.amount,
+          ddl:this.data.ddl,
+          description:this.data.description,
+          start:this.data.start,
+          end:this.data.end,
+          type:this.data.type,
+          contact:this.data.contact,
+        }
+      }).then(res => {
+        wx.showToast({
+          title: '添加成功',
+          mask:true,
+        });
+      }).catch(err => {
+        console.log("添加出错")
+        console.log(err)
+      })
     }
   },
 
@@ -199,7 +219,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.cloud.init({
+      env: 'test-g55yu',
+      traceUser: true,
+    })
   },
 
   /**
