@@ -9,3 +9,11 @@
   background: ghostwhite;
   text-align: center;
 }
+
+.text{
+  text-align: center;
+}
+
+.ack{
+  justify-content: center;
+}

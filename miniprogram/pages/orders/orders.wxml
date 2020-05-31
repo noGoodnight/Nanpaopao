@@ -1,113 +1,79 @@
 <!--pages/orders/orders.wxml-->
-  <image class="nju-head"  mode="aspectFit" 
-  src="https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/QQ%E5%9B%BE%E7%89%8720200523104552.jpg" />
+<image class="nju-head" mode="aspectFit" src="https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/QQ%E5%9B%BE%E7%89%8720200523104552.jpg" />
 
-  <van-divider  />
+<van-divider />
 
-    <wxs module="m1">
-      var getState = function(pullerId,isFinished) {
-        var state = "进行中";
-        if(pullerId==="null"){
-          state = "已发布";
-        } else if(isFinished===true){
-          state = "已完成";
-        }  
-        return state;
-      }
-      module.exports.getState = getState;
-    </wxs>
+<wxs module="m1">
+	var getState = function(pullerId, isFinished) {
+		var state = "进行中";
+		if (pullerId === "null") {
+			state = "已发布";
+		} else if (isFinished === true) {
+			state = "已完成";
+		}
+		return state;
+	}
+	module.exports.getState = getState;
+</wxs>
 
-    <wxs module="m2">
-      var splitDate = function(String) {
-          var a = String.split("-");
-          var output="ddl:";
-          output = output+a[1]+"月";
-          var b= a[2].split(" ");
-          output = output+b[0]+"日";
-          var c= b[1].split(":");
-          output = output+c[0]+"时"+c[1]+"分";
-          return output;
-      }
-      module.exports.splitDate = splitDate;
-    </wxs>
+<wxs module="m2">
+	var splitDate = function(String) {
+		var a = String.split("-");
+		var output = "ddl:";
+		output = output + a[1] + "月";
+		var b = a[2].split(" ");
+		output = output + b[0] + "日";
+		var c = b[1].split(":");
+		output = output + c[0] + "时" + c[1] + "分";
+		return output;
+	}
+	module.exports.splitDate = splitDate;
+</wxs>
 
-  <van-tabs active="{{ active }}" bind:change="onChange">
-   <van-tab title="我的发布">
-   <view wx:for="{{fb}}" wx:key="id">
-    <van-card
-      tag="{{m1.getState(item.pullerId,item.isFinished)}}"
-      desc="{{item.description}}"
-      title="{{item.title}}"
-      price="{{item.amount}}"
-      thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg"
-    >
-     <view slot="footer" >
-        <van-button 
-        class="button"
-        wx:if="{{item.pullerId=='null'}}" 
-        size="mini" 
-        type="danger" 
-        round="true" 
-        is-link 
-        bind:click= "showPopup2" 
-        data-id="{{item._id}}">
-        -  确 认 删 除  -
-        </van-button>
-        <van-button 
-        class="button"
-        wx:if="{{item.pullerId!='null' && item.isFinished==false}}"
-        size="mini" 
-        type="warning" 
-        round="true" 
-        is-link 
-        bind:click= "showPopup" 
-        data-id="{{item._id}}">
-        -  确 认 完 成    -
-        </van-button>
-     </view>  
-     <view slot="tags">
-        <van-tag type="danger">{{m2.splitDate(item.ddl)}}</van-tag>
-     </view> 
-    </van-card>
-   </view>
-   </van-tab>
+<van-tabs active="{{ active }}" bind:change="onChange">
+	<van-tab title="我的发布">
+		<view wx:for="{{fb}}" wx:key="id">
+			<van-card tag="{{m1.getState(item.pullerId,item.isFinished)}}" desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg">
+				<view slot="footer">
+					<van-button class="button" wx:if="{{item.pullerId=='null'}}" size="mini" type="danger" round="true" is-link bind:click="showPopup2" data-id="{{item._id}}">
+						- 确 认 删 除 -
+					</van-button>
+					<van-button class="button" wx:if="{{item.pullerId!='null' && item.isFinished==false}}" size="mini" type="warning" round="true" is-link bind:click="showPopup" data-id="{{item._id}}">
+						- 确 认 完 成 -
+					</van-button>
+				</view>
+				<view slot="tags">
+					<van-tag type="danger">{{m2.splitDate(item.ddl)}}</van-tag>
+				</view>
+			</van-card>
+		</view>
+    <view class="text">- 南跑跑 -</view>
+<view class="text">- 互联网计算小队 -</view>
+	</van-tab>
 
-   <van-tab title="我的任务">
-   <view wx:for="{{rw}}" wx:key="id">
-    <van-card
-      desc="{{item.description}}"
-      title="{{item.title}}"
-            price="{{item.amount}}"
-      thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg"
-    >
-      <view slot="tags">
-        <van-tag type="danger">{{m2.splitDate(item.ddl)}}</van-tag>
-     </view>
-    </van-card>
-   </view>
-   </van-tab>
+	<van-tab title="我的任务">
+		<view wx:for="{{rw}}" wx:key="id">
+			<van-card desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg">
+				<view slot="tags">
+					<van-tag type="danger">{{m2.splitDate(item.ddl)}}</van-tag>
+				</view>
+			</van-card>
+		</view>
+    <view class="text">- 南跑跑 -</view>
+<view class="text">- 互联网计算小队 -</view>
+	</van-tab>
 </van-tabs>
 
-      <van-popup 
-      show="{{ show }}" 
-      closeable
-      position="bottom"
-      custom-style="height:25%;width:100%;" 
-      bind:close="onClose">
-        <view class='blank'></view>
-        <text class="context">确 认 要 提 交 吗 ？</text>
-        <view class='blank'></view>
-        <van-button class='context' type="primary" bind:click= "submit"> 确 认 完 成 </van-button>
-      </van-popup>
+<van-popup show="{{ show }}" closeable position="bottom" custom-style="height:25%;width:100%;" bind:close="onClose">
+	<view class='blank'></view>
+	<text class="context">确 认 要 提 交 吗 ？</text>
+	<view class='blank'></view>
+	<van-button class='context' type="primary" bind:click="submit"> 确 认 完 成 </van-button>
+</van-popup>
 
-      <van-popup 
-      show="{{ show2 }}" 
-      closeable
-      position="bottom"
-      custom-style="height:25%;width:100%;" 
-      bind:close="onClose">
-        <view class='blank'></view>
-        <text class="context">确 认 要 删 除 吗 ？</text>
-        <view class='blank'></view>
-        <van-button class='context' type="danger" bind:click= "myDelete"> 确 认 删 除 </van-button>
-      </van-popup>
+<van-popup show="{{ show2 }}" closeable position="bottom" custom-style="height:25%;width:100%;" bind:close="onClose">
+	<view class='blank'></view>
+	<text class="context">确 认 要 删 除 吗 ？</text>
+	<view class='blank'></view>
+	<van-button class='context' type="danger" bind:click="myDelete"> 确 认 删 除 </van-button>
+</van-popup>

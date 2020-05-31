@@ -1,5 +1,19 @@
 <!--pages/browse/browse.wxml-->
 
+<wxs module="m2">
+	var splitDate = function(String) {
+		var a = String.split("-");
+		var output = "";
+		output = output + a[0] + "年" + a[1] + "月";
+		var b = a[2].split(" ");
+		output = output + b[0] + "日";
+		var c = b[1].split(":");
+		output = output + c[0] + "时" + c[1] + "分";
+		return output;
+	}
+	module.exports.splitDate = splitDate;
+</wxs>
+
 <van-search value="{{ value }}" placeholder="请输入关键词" shape="round" use-action-slot bind:change="onChange" bind:search="onSearch">
 	<view class="search-button" slot="action" bind:tap="onClick">搜 索</view>
 </van-search>
@@ -9,8 +23,22 @@
 	<van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
 </van-dropdown-menu>
 
-<view wx:for="{{mission}}">
-	<view wx:if="{{item.ableToView}}">
-		{{item.start}} -> {{item.end}}
-	</view>
+<view wx:for="{{missions}}" wx:key="id">
+	<van-card desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg" tag="{{item.start}}->{{item.end}}">
+		<view slot="footer">
+			<van-button size="mini" bind:click="setOid" data-oid="{{item._id}}">- 认 领 -</van-button>
+		</view>
+	</van-card>
 </view>
+<view class="text">- 南跑跑 -</view>
+<view class="text">- 互联网计算小队 -</view>
+
+<van-popup class="popUp" show="{{ show }}" round position="bottom" bind:close="onClose" custom-style="height: 60%">
+	<van-cell-group>
+		<van-cell title="标题：{{mission.title}}" />
+		<van-cell title="详情：{{mission.description}}" />
+		<van-cell title="截止时间：{{m2.splitDate(mission.ddl)}}" />
+		<van-cell title="路线：{{mission.start}} --> {{mission.end}}" />
+		<van-button type="primary" block bind:click="confirm">确  认</van-button>
+	</van-cell-group>
+</van-popup>

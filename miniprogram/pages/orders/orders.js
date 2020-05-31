@@ -156,7 +156,8 @@ Page({
   },
 
   onClose() {
-    this.setData({ show: false });
+    this.setData({ show: false,
+    show2: false });
   },
 
   submit:function(e){

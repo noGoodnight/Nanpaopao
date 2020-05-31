@@ -7,61 +7,83 @@ Page({
   data: {
     value: "",
     option1: [{
-        text: "全部起点",
-        value: 0
-      },
-      {
-        text: "仙林",
-        value: 1
-      },
-      {
-        text: "鼓楼",
-        value: "2"
-      }
+      text: "全部起点",
+      value: 0
+    },
+    {
+      text: "仙林",
+      value: 1
+    },
+    {
+      text: "鼓楼",
+      value: "2"
+    }
     ],
     option2: [{
-        text: "全部终点",
-        value: 0
-      },
-      {
-        text: "仙林",
-        value: 1
-      },
-      {
-        text: "鼓楼",
-        value: "2"
-      }
+      text: "全部终点",
+      value: 0
+    },
+    {
+      text: "仙林",
+      value: 1
+    },
+    {
+      text: "鼓楼",
+      value: "2"
+    }
     ],
     value1: 0,
     value2: 0,
-    mission: [{
-        start: "仙林",
-        end: "仙林",
-        ableToView: true,
-      },
-      {
-        start: "仙林",
-        end: "鼓楼",
-        ableToView: true,
-      },
-      {
-        start: "鼓楼",
-        end: "鼓楼",
-        ableToView: true,
-      },
-      {
-        start: "鼓楼",
-        end: "仙林",
-        ableToView: true,
-      },
-    ],
+    missions: [],
+    opID: "",
+    show: false,
+    orderID: "",
+    mission: null,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData();
+    let _this = this
+    _this.setData({
+      missions:[],
+    })
+
+    wx.login({
+      //获取code
+      success: function (res) {
+        const db = wx.cloud.database()
+        var code = res.code; //返回code
+        console.log(code)
+        wx.cloud.callFunction({
+          name: 'login', data: { code: code },
+          success: function (res) {
+            console.log(res)
+            let openID = res.result.userInfo.openId
+            _this.setData({
+              opID: openID
+            })
+            db.collection('orders').get({
+              success: function (res) {
+                for (var i = 0; i < res.data.length; i++) {
+                  if (res.data[i].isFinished == false && res.data[i].pullerId == "null" && res.data[i].pusherID != _this.data.opID) {
+                    _this.data.missions.push(res.data[i])
+                  }
+                }
+                let tmpMissions = _this.data.missions
+                _this.setData({
+                  missions: tmpMissions,
+                })
+                console.log(_this.data.missions.length)
+                console.log(_this.data.opID)
+              }
+            })
+          },
+          fail: console.error
+        })
+      }
+    })
   },
 
   /**
@@ -118,22 +140,7 @@ Page({
   },
 
   onSearch() {
-    var value = this.data.value;
-    if (value == "") {
-      for (var i = 0; i < this.data.mission.length; i++) {
-        this.data.mission[i].ableToView = true;
-        console.log(this.data.mission[i].ableToView);
-      }
-    } else {
-      for (var i = 0; i < this.data.mission.length; i++) {
-        if (this.data.mission[i].start == value || this.data.mission[i].end == value) {
-          this.data.mission[i].ableToView = true;
-        } else {
-          this.data.mission[i].ableToView = false;
-        }
-        console.log(this.data.mission[i].ableToView);
-      }
-    }
+
   },
 
   onChange(e) {
@@ -146,5 +153,48 @@ Page({
   onClick() {
     this.onSearch();
     this.onShow();
+  },
+
+  showPopup() {
+    this.setData({ show: true });
+  },
+
+  onClose() {
+    this.setData({ show: false });
+  },
+
+  setOid(e) {
+    const db = wx.cloud.database()
+    let temp
+    for(var i = 0;i<this.data.missions.length;i++){
+      if(this.data.missions[i]._id == e.currentTarget.dataset.oid){
+        temp = this.data.missions[i]
+        break
+      }
+    }
+    this.setData({
+      orderID: e.currentTarget.dataset.oid,
+      mission: temp,
+    })
+    console.log(this.data.mission.title)
+    console.log(this.data.orderID)
+    this.showPopup()
+  },
+
+  confirm(e){
+    const db = wx.cloud.database()
+    db.collection('orders').doc(this.data.orderID).update({
+      // data 传入需要局部更新的数据
+      data: {
+        // 表示将 done 字段置为 true
+        pullerId: this.data.opID
+      },
+      success: function(res) {
+        console.log(res.data)
+      }
+    })
+    this.onClose()
+    this.onHide()
+    this.onLoad()
   },
 })
