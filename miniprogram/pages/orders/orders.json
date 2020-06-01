@@ -9,5 +9,6 @@
     "van-popup": "@vant/weapp/popup/index",
     "van-tag": "@vant/weapp/tag/index"
   },
-    "enablePullDownRefresh": true
+    "enablePullDownRefresh": true,
+    "backgroundTextStyle": "dark"
 }

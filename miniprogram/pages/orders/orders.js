@@ -20,7 +20,7 @@ Page({
    */
   onLoad: function (options) {
     let _this = this
-    
+    wx.stopPullDownRefresh()
     wx.cloud.init({
       env: 'test-g55yu',
       traceUser: true,
@@ -49,19 +49,19 @@ Page({
             const db = wx.cloud.database()
             db.collection('orders').get({
               success: function (res) {
+                var list1 = []
+                var list2 = []
                 for (var i = 0; i < res.data.length; i++) {
                   if (res.data[i].pusherId == _this.data.myOpenId) {
-                    _this.data.fb.push(res.data[i])
+                    list1.push(res.data[i])
                   }
                   if (res.data[i].pullerId == _this.data.myOpenId && res.data[i].isFinished == false) {
-                    _this.data.rw.push(res.data[i])
+                    list2.push(res.data[i])
                   }
                 }
-                let tmpfb = _this.data.fb
-                let tmprw = _this.data.rw
                 _this.setData({
-                  fb: tmpfb,
-                  rw: tmprw
+                  fb: list1,
+                  rw: list2,
                 })
               }
             })
@@ -93,6 +93,7 @@ Page({
             active: 2
         });
     }
+    this.onLoad()
   },
 
   /**
@@ -113,7 +114,30 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    wx.cloud.init({
+      env: 'test-g55yu',
+      traceUser: true,
+    })
+    const db = wx.cloud.database()
+    db.collection('orders').get({
+      success: function (res) {
+        var list1 = []
+        var list2 = []
+        for (var i = 0; i < res.data.length; i++) {
+          if (res.data[i].pusherId == _this.data.myOpenId) {
+            list1.push(res.data[i])
+          }
+          if (res.data[i].pullerId == _this.data.myOpenId && res.data[i].isFinished == false) {
+            list2.push(res.data[i])
+          }
+        }
+        _this.setData({
+          fb: list1,
+          rw: list2,
+        })
+      }
+    })
+    this.onLoad()
   },
 
   /**
