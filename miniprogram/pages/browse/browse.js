@@ -47,8 +47,10 @@ Page({
    */
   onLoad: function (options) {
     let _this = this
+    let value1 = this.data.value1
+    let value2 = this.data.value2
     _this.setData({
-      missions:[],
+      missions:[] //防止出现重复
     })
 
     wx.login({
@@ -66,15 +68,27 @@ Page({
             db.collection('orders').get({
               success: function (res) {
                 for (var i = 0; i < res.data.length; i++) {
-                  if (res.data[i].isFinished == false && res.data[i].pullerId == "null" && res.data[i].pusherID != _this.data.opID) {
-                    _this.data.missions.push(res.data[i])
+                  var toAdd = true
+                  if (res.data[i].isFinished == false && res.data[i].pullerId == "null") {
+                    if (value1 != 0 && res.data[i].start != _this.data.option1[value1].text) {
+                      console.log(res.data[i].start)
+                      console.log(_this.data.option1[value1].text)
+                      toAdd = false
+                    }
+                    if (toAdd) {
+                      if (value2 != 0 && res.data[i].end != _this.data.option2[value2].text) {
+                        toAdd = false
+                      }
+                    }
+                    if (toAdd) {
+                      _this.data.missions.push(res.data[i])
+                    }
                   }
                 }
                 let tmpMissions = _this.data.missions
                 _this.setData({
                   missions: tmpMissions,
                 })
-                console.log(_this.data.opID)
               }
             })
           },
@@ -100,12 +114,12 @@ Page({
         active: 0
       });
     }
-    
-    if(!this.data.firstLoad){
+
+    if (!this.data.firstLoad) {
       this.onLoad()
-    }else{
+    } else {
       this.setData({
-        firstLoad:false
+        firstLoad: false
       })
     }
   },
@@ -172,8 +186,8 @@ Page({
   setOid(e) {
     let temp = null
     let str = ""
-    for(var i = 0;i<this.data.missions.length;i++){
-      if(this.data.missions[i]._id == e.currentTarget.dataset.oid){
+    for (var i = 0; i < this.data.missions.length; i++) {
+      if (this.data.missions[i]._id == e.currentTarget.dataset.oid) {
         temp = this.data.missions[i]
         break
       }
@@ -190,7 +204,7 @@ Page({
     this.showPopup()
   },
 
-  confirm(e){
+  confirm(e) {
     const db = wx.cloud.database()
     db.collection('orders').doc(this.data.orderID).update({
       // data 传入需要局部更新的数据
@@ -198,21 +212,38 @@ Page({
         // 表示将 done 字段置为 true
         pullerId: this.data.opID
       },
-      success: function(res) {
+      success: function (res) {
         console.log(res.data)
       }
     })
+    this.onClose()
     this.onShow()
   },
 
   splitDate(String) {
-		var a = String.split("-");
-		var output = "";
-		output = output + a[0] + "年" + a[1] + "月";
-		var b = a[2].split(" ");
-		output = output + b[0] + "日";
-		var c = b[1].split(":");
-		output = output + c[0] + "时" + c[1] + "分";
-		return output;
-	}
+    var a = String.split("-");
+    var output = "";
+    output = output + a[0] + "年" + a[1] + "月";
+    var b = a[2].split(" ");
+    output = output + b[0] + "日";
+    var c = b[1].split(":");
+    output = output + c[0] + "时" + c[1] + "分";
+    return output;
+  },
+
+  switchStart(e) {
+    console.log(e.detail)
+    this.setData({
+      value1: e.detail
+    })
+    this.onShow()
+  },
+
+  switchEnd(e) {
+    console.log(e.detail)
+    this.setData({
+      value2: e.detail
+    })
+    this.onShow()
+  },
 })
