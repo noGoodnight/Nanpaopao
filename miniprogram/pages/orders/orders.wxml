@@ -19,7 +19,7 @@
 <wxs module="m2">
 	var splitDate = function(String) {
 		var a = String.split("-");
-		var output = "ddl:";
+		var output = "DDL:";
 		output = output + a[1] + "月";
 		var b = a[2].split(" ");
 		output = output + b[0] + "日";

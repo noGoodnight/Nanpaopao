@@ -39,6 +39,7 @@ Page({
     show: false,
     orderID: "",
     mission: null,
+    firstLoad: true
   },
 
   /**
@@ -55,11 +56,9 @@ Page({
       success: function (res) {
         const db = wx.cloud.database()
         var code = res.code; //返回code
-        console.log(code)
         wx.cloud.callFunction({
           name: 'login', data: { code: code },
           success: function (res) {
-            console.log(res)
             let openID = res.result.userInfo.openId
             _this.setData({
               opID: openID
@@ -75,7 +74,6 @@ Page({
                 _this.setData({
                   missions: tmpMissions,
                 })
-                console.log(_this.data.missions.length)
                 console.log(_this.data.opID)
               }
             })
@@ -101,6 +99,14 @@ Page({
       this.getTabBar().setData({
         active: 0
       });
+    }
+    
+    if(!this.data.firstLoad){
+      this.onLoad()
+    }else{
+      this.setData({
+        firstLoad:false
+      })
     }
   },
 
@@ -164,18 +170,21 @@ Page({
   },
 
   setOid(e) {
-    const db = wx.cloud.database()
-    let temp
+    let temp = null
+    let str = ""
     for(var i = 0;i<this.data.missions.length;i++){
       if(this.data.missions[i]._id == e.currentTarget.dataset.oid){
         temp = this.data.missions[i]
         break
       }
     }
+    str = temp.ddl
+    temp.ddl = this.splitDate(temp.ddl)
     this.setData({
       orderID: e.currentTarget.dataset.oid,
       mission: temp,
     })
+    temp.ddl = str
     console.log(this.data.mission.title)
     console.log(this.data.orderID)
     this.showPopup()
@@ -193,8 +202,17 @@ Page({
         console.log(res.data)
       }
     })
-    this.onClose()
-    this.onHide()
-    this.onLoad()
+    this.onShow()
   },
+
+  splitDate(String) {
+		var a = String.split("-");
+		var output = "";
+		output = output + a[0] + "年" + a[1] + "月";
+		var b = a[2].split(" ");
+		output = output + b[0] + "日";
+		var c = b[1].split(":");
+		output = output + c[0] + "时" + c[1] + "分";
+		return output;
+	}
 })

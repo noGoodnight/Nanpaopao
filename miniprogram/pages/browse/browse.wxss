@@ -17,3 +17,10 @@
 .ack{
   justify-content: center;
 }
+
+.ack-button{
+  top: 1.33333vw;
+  font-size: 5.33333vw;
+  position: relative;
+  left: 40.3vw;
+}
