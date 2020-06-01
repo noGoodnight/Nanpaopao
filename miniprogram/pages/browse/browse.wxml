@@ -16,8 +16,8 @@
 		</view>
 	</van-card>
 </view>
-<view class="text">- 南跑跑 -</view>
-<view class="text">- 互联网计算小队 -</view>
+<van-divider />
+<van-divider />
 
 <van-popup class="popUp" show="{{ show }}" round position="bottom" bind:close="onClose" custom-style="height: 60%">
 	<van-cell-group>

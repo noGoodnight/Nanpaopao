@@ -47,8 +47,8 @@
 				</view>
 			</van-card>
 		</view>
-    <view class="text">- 南跑跑 -</view>
-<view class="text">- 互联网计算小队 -</view>
+		<van-divider />
+		<van-divider />
 	</van-tab>
 
 	<van-tab title="我的任务">
@@ -59,8 +59,8 @@
 				</view>
 			</van-card>
 		</view>
-    <view class="text">- 南跑跑 -</view>
-<view class="text">- 互联网计算小队 -</view>
+		<van-divider />
+		<van-divider />
 	</van-tab>
 </van-tabs>
 
