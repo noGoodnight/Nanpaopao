@@ -49,8 +49,9 @@ Page({
     let _this = this
     let value1 = this.data.value1
     let value2 = this.data.value2
+    let value = this.data.value
     _this.setData({
-      missions:[] //防止出现重复
+      missions: [] //防止出现重复
     })
 
     wx.login({
@@ -71,13 +72,22 @@ Page({
                   var toAdd = true
                   if (res.data[i].isFinished == false && res.data[i].pullerId == "null") {
                     if (value1 != 0 && res.data[i].start != _this.data.option1[value1].text) {
-                      console.log(res.data[i].start)
-                      console.log(_this.data.option1[value1].text)
                       toAdd = false
                     }
                     if (toAdd) {
                       if (value2 != 0 && res.data[i].end != _this.data.option2[value2].text) {
                         toAdd = false
+                      }
+                    }
+                    if (toAdd) {
+                      if (value != "") {
+                        console.log(value)
+                        console.log(res.data[i].title.indexOf(value))
+                        console.log(res.data[i].description.indexOf(value))
+                        if (res.data[i].title.indexOf(value) < 0 || res.data[i].description.indexOf(value) < 0) {
+                          toAdd = false
+                        }
+                        console.log(toAdd)
                       }
                     }
                     if (toAdd) {
@@ -159,19 +169,13 @@ Page({
 
   },
 
-  onSearch() {
-
-  },
-
   onChange(e) {
     this.setData({
       value: e.detail,
     })
-    console.log(this.data.value);
   },
 
   onClick() {
-    this.onSearch();
     this.onShow();
   },
 
