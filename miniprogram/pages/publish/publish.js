@@ -206,6 +206,9 @@ Page({
           title: '添加成功',
           mask:true,
         });
+        wx.switchTab({
+          url: "/pages/orders/orders",
+        })
       }).catch(err => {
         console.log("添加出错")
         console.log(err)

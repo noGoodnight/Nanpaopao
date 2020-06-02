@@ -217,11 +217,17 @@ Page({
         pullerId: this.data.opID
       },
       success: function (res) {
-        console.log(res.data)
+        console.log( '认领成功')
+        wx.showToast({
+          title: '认领成功',
+          mask:true,
+        })
       }
     })
     this.onClose()
-    this.onShow()
+    wx.switchTab({
+      url: "/pages/orders/orders",
+    })
   },
 
   splitDate(String) {
