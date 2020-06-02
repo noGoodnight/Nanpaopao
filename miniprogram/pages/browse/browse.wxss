@@ -20,7 +20,12 @@
 
 .ack-button{
   top: 1.33333vw;
-  font-size: 5.33333vw;
+  font-size: 6vw;
   position: relative;
-  left: 40.3vw;
+  right: -60vw;
+}
+.cancel-button{
+  top: 1.33333vw;
+  font-size: 6vw;
+  position: relative;
 }

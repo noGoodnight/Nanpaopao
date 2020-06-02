@@ -12,19 +12,20 @@
 <view wx:for="{{missions}}" wx:key="id">
 	<van-card desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg" tag="{{item.start}}->{{item.end}}">
 		<view slot="footer">
-			<van-button size="mini" bind:click="setOid" data-oid="{{item._id}}">- 查 看 -</van-button>
+			<van-button size="small" bind:click="setOid" data-oid="{{item._id}}">- 查 看 -</van-button>
 		</view>
 	</van-card>
 </view>
 <van-divider />
 <van-divider />
 
-<van-popup class="popUp" show="{{ show }}" round position="bottom" bind:close="onClose" custom-style="height: 60%">
+<van-popup class="popUp" show="{{ show }}" round position="bottom" bind:close="onClose" custom-style="height: 280px">
 	<van-cell-group>
 		<van-cell title="标题：{{mission.title}}" />
 		<van-cell title="详情：{{mission.description}}" width="{{wx.getSystemInfoSync().windowWidth}}" />
 		<van-cell title="截止时间：{{mission.ddl}}" />
 		<van-cell title="路线：{{mission.start}} --> {{mission.end}}" />
 	</van-cell-group>
-	<van-button class="ack-button" type="primary" bind:click="confirm">认 领</van-button>
+	<van-button class="ack-button"  plain type="primary" bind:click="confirm">认 领</van-button>
+	<van-button class="cancel-button"  type="default" bind:click="onClose">再逛逛</van-button>
 </van-popup>
