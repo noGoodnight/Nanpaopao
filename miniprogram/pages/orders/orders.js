@@ -180,8 +180,10 @@ Page({
   },
 
   onClose() {
-    this.setData({ show: false,
-    show2: false });
+    this.setData({ show: false});
+  },
+  onClose2() {
+    this.setData({ show2: false });
   },
 
   submit:function(e){
