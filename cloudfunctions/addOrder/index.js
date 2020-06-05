@@ -24,7 +24,9 @@ exports.main = async (event, context) => {
         pusherId:wxContext.OPENID,
         type:event.type,
         contact:event.contact,
-        isFinished:false
+        isFinished:false,
+        publishTime:event.publishTime,
+        DDLinMillisecond:event.DDLinMillisecond
       }
   })
   } catch (e) {

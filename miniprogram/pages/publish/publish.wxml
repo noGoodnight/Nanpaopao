@@ -74,7 +74,7 @@
   show="{{ showTimePicker }}"
   round
   position="bottom"
-  custom-style="height: 40%"
+  custom-style="height: 280px"
   bind:close="closePopup"
 >
   <van-datetime-picker

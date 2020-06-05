@@ -37,7 +37,8 @@ Page({
     description:"",
     contact:"",
     type:"",
-    isFinished:false
+    isFinished:false,
+    DDLinMillisecond:""
   },
   inputTitle(event){
     this.setData({
@@ -97,15 +98,16 @@ Page({
   },
   inputDDL(e) {
     this.setData({
-      currentDate: e.detail,
+      DDLinMillisecond:e.detail
     });
     var date = new Date(e.detail);
     var year = date.getFullYear();
-    var month = date.getMonth();
+    var month = date.getUTCMonth()+1;
+    var day = date.getUTCDate();
+    console.log(year+" "+month+" "+day)
     if (month<10){
       month = "0"+month;
     }
-    var day = date.getDay();
     if (day<10){
       day = "0"+day;
     }
@@ -200,6 +202,8 @@ Page({
           end:this.data.end,
           type:this.data.type,
           contact:this.data.contact,
+          publishTime:new Date().getTime(),
+          DDLinMillisecond:this.data.DDLinMillisecond
         }
       }).then(res => {
         wx.showToast({
