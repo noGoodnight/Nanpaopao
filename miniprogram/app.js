@@ -49,7 +49,8 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    openId:""
   },
 //tabbar
   colorChange(event) {

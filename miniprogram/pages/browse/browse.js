@@ -1,4 +1,5 @@
 // pages/browse/browse.js
+const app = getApp();
 Page({
 
   /**

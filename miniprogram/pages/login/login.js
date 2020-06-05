@@ -71,6 +71,18 @@ Page({
     })
   },
   intoApp: function(){
+    wx.cloud.callFunction({
+      // 要调用的云函数名称
+      name: 'getOpenId',
+      // 传递给云函数的event参数
+      data: {
+      }
+    }).then(res => {
+      app.globalData.openId = res.result.openid
+      //console.log(app.globalData.openId)
+    }).catch(err => {
+      console.log(err)
+    })
     setTimeout(function () {
       wx.switchTab({
         url: '/pages/browse/browse',
