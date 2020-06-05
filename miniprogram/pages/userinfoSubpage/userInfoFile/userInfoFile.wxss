@@ -16,3 +16,6 @@ image{
   bottom:7rem;
   position:fixed;
 }
+van-picder{
+  margin-bottom: 5rem;
+}

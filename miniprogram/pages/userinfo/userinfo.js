@@ -9,6 +9,8 @@ Page({
       userInfo:{},
       useravatarUrl:'',
       gender:'',
+      gain:'',
+      opID:'',
   },
   changePictures(){
       this.setData({
@@ -67,11 +69,10 @@ Page({
    */
   onLoad: function (options) {
       // this.userInfo=app.globalData.userInfo
-      console.log(app.globalData.userInfo)
+      let _this=this
       this.setData({
         userInfo:app.globalData.userInfo
       })
-    
       if (app.globalData.userInfo.gender){
         this.setData({
           gender:"男"
@@ -82,6 +83,42 @@ Page({
           gender:"女"
         }) 
       }
+      wx.login({
+        //获取code
+        success: function (res) {
+          const db = wx.cloud.database()
+          var code = res.code; //返回code
+          wx.cloud.callFunction({
+            name: 'login', data: { code: code },
+            success: function (res) {
+              let openID = res.result.userInfo.openId
+              _this.setData({
+                opID: openID
+              })
+              db.collection('orders').get({
+                success: function (res) {
+                  var sum=0
+                  for (var i = 0; i < res.data.length; i++) {
+                    if (res.data[i].isFinished == true ) {
+                      if(res.data[i].pullerId== _this.data.opID){
+                          sum=sum+res.data[i].amount                   
+                      }
+                      if(res.data[i].pusherId== _this.data.opID){
+                        sum=sum-res.data[i].amount                       
+                    }
+                    }                   
+                  }
+                  console.log(sum)
+                  _this.setData({
+                    gain:sum,
+                  })                                 
+                }
+              })
+            },
+            fail: console.error
+          })
+        }
+      })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

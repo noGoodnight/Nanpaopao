@@ -4,3 +4,6 @@
 .container{
   padding: 0rpx;
 }
+van-tabs{
+  width:100%;
+}

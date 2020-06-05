@@ -5,94 +5,115 @@ Page({
    * 页面的初始数据
    */
   data: {
-      showName:false,
-      showPictures:false,
-      showId:false,
-      userName:'柳斯宁',
-      userId:'181250093',
-      activeNames:['1'],
-      gain:0,
-      myneed:[
-        {name:'需求1',detail:'细节',award:'100'},
-        {name:'需求2',detail:'细节',award:'100'},
-        {name:'需求3',detail:'细节',award:'100'},
-      ],
-      pictures:[
-        {
-          url:"http://img2.imgtn.bdimg.com/it/u=3536962002,2703222804&fm=26&gp=0.jpg",
-          name:"cat1"
-        },
-        {
-          url:"http://img5.imgtn.bdimg.com/it/u=187649172,1956357065&fm=26&gp=0.jpg",
-          name:"cat2"
-        },
-        {
-          url:"http://img5.imgtn.bdimg.com/it/u=2069266298,515098533&fm=26&gp=0.jpg",
-          name:"cat3"
-        }
-      ],
-  },
-  changePictures(){
-      this.setData({
-        showPictures:true,
-      })
-      
-  },
-  changeName(){
-    this.setData({
-      showName:true
-    })
-  },
-  changeId(){
-    this.setData({
-      showId:true
-    })
-  },
-  setName(event){
-    this.setData({
-      userName:event.detail,
-    })
-  },
-  setId(event){
-    this.setData({
-      userId:event.detail,
-    })
-  },
-  closeName(){
-    this.setData({
-      showName:false,
-    })
-  },
-  closeId(){
-    this.setData({
-      showId:false,
-    })
-  },
-  closePictures(){
-    this.setData({
-      showPictures:false,
-    })
-  },
-  uploadPictures(){
 
+      pushmissions: [],
+      pullmissions: [],
+      opID:'',
+      orderId:'',
+      mission:null,
+      active:0,
+      show:false,
   },
-  contactUs(){
-    wx.showModal({
-      title:"联系我们",
-      content:"计网大作业",
-      cancelColor: 'cancelColor',
-    })
-  },
-  changeTab:function (event){
-      wx.switchTab({url: this.data.list[event.detail]})
-  },
+  
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let _this = this
+    // let value1 = this.data.value1
+    // let value2 = this.data.value2
+    // let value = this.data.value
+    _this.setData({
+      pushmissions: [], //防止出现重复
+      pullmissions:[]
+    })
 
+    wx.login({
+      //获取code
+      success: function (res) {
+        const db = wx.cloud.database()
+        var code = res.code; //返回code
+        wx.cloud.callFunction({
+          name: 'login', data: { code: code },
+          success: function (res) {
+            let openID = res.result.userInfo.openId
+            _this.setData({
+              opID: openID
+            })
+            db.collection('orders').get({
+              success: function (res) {
+                console.log(_this.data.opId)
+                for (var i = 0; i < res.data.length; i++) {
+                  var addToPush = false
+                  var addToPull = false
+                  if (res.data[i].isFinished == true ) {
+                    if(res.data[i].pullerId== _this.data.opID){
+                        addToPull=true
+                    }
+                    if(res.data[i].pusherId== _this.data.opID){
+                      addToPush=true
+                  }
+                    if (addToPush) {
+                      _this.data.pushmissions.push(res.data[i])
+                    }
+                    if (addToPull) {
+                      _this.data.pullmissions.push(res.data[i])
+                    }
+                  }
+                }               
+                let tmppushMissions = _this.data.pushmissions
+                let tmppullMissions = _this.data.pullmissions
+                _this.setData({
+                  pushmissions: tmppushMissions,
+                  pullmissions: tmppullMissions,
+                })
+              }
+            })
+          },
+          fail: console.error
+        })
+      }
+    })
   },
-
+  setpushMission(e){
+    let temp=null
+    for (var i = 0; i < this.data.pushmissions.length; i++) {
+      if (this.data.pushmissions[i]._id == e.currentTarget.dataset.oid) {
+        temp = this.data.pushmissions[i]
+        break
+      }
+    }
+    this.setData({
+      mission:temp,
+      show:true,
+    })
+  },
+  setpullMission(e){
+    let temp=null
+    for (var i = 0; i < this.data.pullmissions.length; i++) {
+      if (this.data.pullmissions[i]._id == e.currentTarget.dataset.oid) {
+        temp = this.data.pullmissions[i]
+        break
+      }
+    }
+    this.setData({
+      mission:temp,
+      show:true,
+    })
+  },
+  onClose(){
+    this.setData({
+      show:false,
+    })
+  },
+  onChange(event) {
+    console.log(event);
+    wx.showToast({
+      title: ` ${event.detail.title}`,
+      icon: 'none',
+    });
+    this.setData({ active: event.detail });
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

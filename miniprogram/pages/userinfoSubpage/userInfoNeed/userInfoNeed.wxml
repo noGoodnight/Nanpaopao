@@ -1,6 +1,32 @@
 <!-- userInfoNeed -->
 <view class="container">
-	<view class="cells" wx:for='{{myneed}}' wx:key="id">
-		<van-card title="{{item.name}}" desc="{{item.detail}}" thumb="https://nju-sjim.oss-cn-beijing.aliyuncs.com/%E5%8D%97%E8%B7%91%E8%B7%91/nologin.png" bind:click="cardDetail" />
-	</view>
+	<van-tabs active="{{active}}" bind:change="onChange">
+		<van-tab title="我的发布">
+			<view class="cells" wx:for='{{pushmissions}}' wx:key="id">
+				<van-card tag="{{m1.getState(item.pullerId,item.isFinished)}}" desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg" >
+				<view slot="footer">
+					<van-button size="small" bind:click="setpushMission" data-oid="{{item._id}}">- 查 看 -</van-button>				
+					</view>
+				</van-card>
+			</view>
+		</van-tab>
+		<van-tab title="我的任务">
+			<view class="cells" wx:for='{{pullmissions}}' wx:key="id">
+				<van-card tag="{{m1.getState(item.pullerId,item.isFinished)}}" desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg" >
+				<view slot="footer">
+					<van-button size="small" bind:click="setpullMission" data-oid="{{item._id}}">- 查 看 -</van-button>				
+					</view>
+				</van-card>
+			</view>
+		</van-tab>
+	</van-tabs>
+	<van-popup show="{{show}}" round closeable close-icon="close" custom-style="height:　280rpx;width: 100%" position="bottom"  bind:close="onClose">
+		<van-cell-group>
+			<van-cell title="标题：{{mission.title}}"/>
+			<van-cell title="详情：{{mission.description}}" width="{{wx.getSystemInfoSync().windowWidth}}"/>
+			<van-cell title="路线：{{mission.start}} --> {{mission.end}}"/>
+		</van-cell-group>
+	</van-popup>
+	<van-divider />
+	<van-divider />
 </view>

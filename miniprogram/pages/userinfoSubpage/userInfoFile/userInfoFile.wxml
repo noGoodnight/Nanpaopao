@@ -19,7 +19,26 @@
 	</van-popup>
 	<van-popup v-modal="isShow" position="top" show="{{showPictures}}" bind:close="closePictures" class="overlay">
 		<!-- <van-button icon="plus" type="primary" bind:click="savePictures"> -->
+		<view wx:for="{{privateInfo.pictures}}" wx:key="id">
+			<van-image 
+				width="6rem"
+				height="6rem"
+				fit="contain"
+				src="{{item}}"/>
+		</view>
 		<button bindtap="addImg" class="addPng" type="default">添加图片</button>
+		
 	</van-popup>
     <button class="confirm" type="info" bind:click="comfirmInfo">确定</button>
+		<van-popup show="{{confirm}}" position="bottom" bind:close="closeConfirm">
+			<text>个人信息提交后，认证图片经过审核后就不可以更改了哦，你确定要提交嘛？</text>
+			<van-row>
+				<van-col span="12">
+					<van-button type="primary" round bind:click="closeConfirm">取消</van-button>
+				</van-col> 
+				<van-col span="12">
+					<van-button type="confirm" round bind:click="handleSubmit">提交</van-button>
+				</van-col> 
+			</van-row>
+		</van-popup>
 </view>
