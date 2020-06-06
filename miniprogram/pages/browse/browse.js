@@ -40,7 +40,13 @@ Page({
     show: false,
     orderID: "",
     mission: null,
-    firstLoad: true
+    firstLoad: true,
+    picture:[
+      "",
+      "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E6%9D%9C%E5%8E%A6%E5%9B%BE%E4%B9%A6%E9%A6%86.jpg",
+      "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E5%A4%A7%E6%B4%BB.jpg",
+      "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E5%8C%97%E5%A4%A7%E6%A5%BC.jpg",
+    ]
   },
 
   /**
@@ -55,55 +61,39 @@ Page({
       missions: [] //防止出现重复
     })
 
-    wx.login({
-      //获取code
+    const db = wx.cloud.database()
+    db.collection('orders').get({
       success: function (res) {
-        const db = wx.cloud.database()
-        var code = res.code; //返回code
-        wx.cloud.callFunction({
-          name: 'login', data: { code: code },
-          success: function (res) {
-            let openID = res.result.userInfo.openId
-            _this.setData({
-              opID: openID
-            })
-            db.collection('orders').get({
-              success: function (res) {
-                for (var i = 0; i < res.data.length; i++) {
-                  var toAdd = true
-                  if (res.data[i].isFinished == false && res.data[i].pullerId == "null") {
-                    if (value1 != 0 && res.data[i].start != _this.data.option1[value1].text) {
-                      toAdd = false
-                    }
-                    if (toAdd) {
-                      if (value2 != 0 && res.data[i].end != _this.data.option2[value2].text) {
-                        toAdd = false
-                      }
-                    }
-                    if (toAdd) {
-                      if (value != "") {
-                        console.log(value)
-                        console.log(res.data[i].title.indexOf(value))
-                        console.log(res.data[i].description.indexOf(value))
-                        if (res.data[i].title.indexOf(value) < 0 || res.data[i].description.indexOf(value) < 0) {
-                          toAdd = false
-                        }
-                        console.log(toAdd)
-                      }
-                    }
-                    if (toAdd) {
-                      _this.data.missions.push(res.data[i])
-                    }
-                  }
-                }
-                let tmpMissions = _this.data.missions
-                _this.setData({
-                  missions: tmpMissions,
-                })
+        for (var i = 0; i < res.data.length; i++) {
+          var toAdd = true
+          if (res.data[i].isFinished == false && res.data[i].pullerId == "null") {
+            if (value1 != 0 && res.data[i].start != _this.data.option1[value1].text) {
+              toAdd = false
+            }
+            if (toAdd) {
+              if (value2 != 0 && res.data[i].end != _this.data.option2[value2].text) {
+                toAdd = false
               }
-            })
-          },
-          fail: console.error
+            }
+            if (toAdd) {
+              if (value != "") {
+                console.log(value)
+                console.log(res.data[i].title.indexOf(value))
+                console.log(res.data[i].description.indexOf(value))
+                if (res.data[i].title.indexOf(value) < 0 || res.data[i].description.indexOf(value) < 0) {
+                  toAdd = false
+                }
+                console.log(toAdd)
+              }
+            }
+            if (toAdd) {
+              _this.data.missions.push(res.data[i])
+            }
+          }
+        }
+        let tmpMissions = _this.data.missions
+        _this.setData({
+          missions: tmpMissions,
         })
       }
     })
@@ -215,13 +205,13 @@ Page({
       // data 传入需要局部更新的数据
       data: {
         // 表示将 done 字段置为 true
-        pullerId: this.data.opID
+        pullerId: app.globalData.openId
       },
       success: function (res) {
-        console.log( '认领成功')
+        console.log('认领成功')
         wx.showToast({
           title: '认领成功',
-          mask:true,
+          mask: true,
         })
       }
     })

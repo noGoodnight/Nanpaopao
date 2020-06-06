@@ -10,7 +10,7 @@
 </van-dropdown-menu>
 
 <view wx:for="{{missions}}" wx:key="id">
-	<van-card desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg" tag="{{item.start}}->{{item.end}}">
+	<van-card desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="{{picture[item.type]}}" tag="{{item.start}}->{{item.end}}">
 		<view slot="footer">
 			<van-button size="small" bind:click="setOid" data-oid="{{item._id}}">- 查 看 -</van-button>
 		</view>
