@@ -33,15 +33,25 @@ Page({
       value: "2"
     }
     ],
+    option3: [{
+      text: "默认排序",
+      value: 0
+    },
+    {
+      text: "金额优先",
+      value: 1
+    },
+    ],
     value1: 0,
     value2: 0,
+    value3: 0,
     missions: [],
     opID: "",
     show: false,
     orderID: "",
     mission: null,
     firstLoad: true,
-    picture:[
+    picture: [
       "",
       "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E6%9D%9C%E5%8E%A6%E5%9B%BE%E4%B9%A6%E9%A6%86.jpg",
       "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E5%A4%A7%E6%B4%BB.jpg",
@@ -54,9 +64,10 @@ Page({
    */
   onLoad: function (options) {
     let _this = this
-    let value1 = this.data.value1
-    let value2 = this.data.value2
-    let value = this.data.value
+    let value1 = _this.data.value1
+    let value2 = _this.data.value2
+    let value3 = _this.data.value3
+    let value = _this.data.value
     _this.setData({
       missions: [] //防止出现重复
     })
@@ -92,6 +103,11 @@ Page({
           }
         }
         let tmpMissions = _this.data.missions
+        if(value3 == 1){
+          tmpMissions.sort(function (a, b) {
+            return b.amount - a.amount
+          })
+        }
         _this.setData({
           missions: tmpMissions,
         })
@@ -194,8 +210,6 @@ Page({
       mission: temp,
     })
     temp.ddl = str
-    console.log(this.data.mission.title)
-    console.log(this.data.orderID)
     this.showPopup()
   },
 
@@ -233,7 +247,6 @@ Page({
   },
 
   switchStart(e) {
-    console.log(e.detail)
     this.setData({
       value1: e.detail
     })
@@ -241,9 +254,15 @@ Page({
   },
 
   switchEnd(e) {
-    console.log(e.detail)
     this.setData({
       value2: e.detail
+    })
+    this.onShow()
+  },
+
+  switchMoney(e){
+    this.setData({
+      value3:e.detail
     })
     this.onShow()
   },

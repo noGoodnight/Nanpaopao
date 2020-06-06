@@ -7,6 +7,7 @@
 <van-dropdown-menu>
 	<van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" bind:change="switchStart" />
 	<van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" bind:change="switchEnd"/>
+	<van-dropdown-item value="{{ value3 }}" options="{{ option3 }}" bind:change="switchMoney"/>
 </van-dropdown-menu>
 
 <view wx:for="{{missions}}" wx:key="id">
