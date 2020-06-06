@@ -7,55 +7,54 @@ Page({
   data: {
     show:false,
     show2: false,
+    show3: false,
     active: 0,
-    myNickName:"",
     fb:[],
     rw:[],
     myOpenId:"",
     tmpId:"",
+    tmpContact:"",
   },
+  
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let _this = this
+    var that = this
+    var picList = []
+    picList.push("https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E5%8D%97%E5%A4%A7%E6%A0%A1%E5%9B%AD.jpg")
+    picList.push("https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E5%8D%97%E5%A4%A7%E9%9B%AA%E6%99%AF.jpg")
+    picList.push("https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E9%A6%99%E9%9B%AA%E6%B5%B7.jpg")
+    picList.push("https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/QQ%E5%9B%BE%E7%89%8720200523104552.jpg")
+    that.setData({
+      picList: picList,
+    })
+    
     wx.stopPullDownRefresh()
     wx.cloud.init({
       env: 'test-g55yu',
       traceUser: true,
     })
-    wx.getUserInfo({
-      success: res => {
-        let nickName = res.userInfo.nickName
-        _this.setData({
-          myNickName: nickName
-        });
-      }
+
+    const app = getApp()
+    const myopenid = app.globalData.openId
+    this.setData({
+      myOpenId: myopenid
     })
-    wx.login({
-      //获取code
-      success: function (res) {
-        var code = res.code; //返回code
-        console.log(code)
-        wx.cloud.callFunction({ name: 'login', data: { code: code }, 
-          success: function(res) {
-            console.log(res)
-          let openID = res.result.userInfo.openId
-          
-          _this.setData({
-              myOpenId: openID
-          })
+
+    let _this=this
             const db = wx.cloud.database()
             db.collection('orders').get({
               success: function (res) {
+                console.log(res)
                 var list1 = []
                 var list2 = []
                 for (var i = 0; i < res.data.length; i++) {
-                  if (res.data[i].pusherId == _this.data.myOpenId) {
+                  if (res.data[i].pusherId == myopenid) {
                     list1.push(res.data[i])
                   }
-                  if (res.data[i].pullerId == _this.data.myOpenId && res.data[i].isFinished == false) {
+                  if (res.data[i].pullerId == myopenid && res.data[i].isFinished == false) {
                     list2.push(res.data[i])
                   }
                 }
@@ -65,10 +64,7 @@ Page({
                 })
               }
             })
-            }, 
-           fail: console.error })
-      }
-    })
+    
     
     
     
@@ -114,6 +110,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    let _this=this
     wx.cloud.init({
       env: 'test-g55yu',
       traceUser: true,
@@ -161,6 +158,8 @@ Page({
       icon: 'none',
     });
     this.setData({ active: event.detail });
+    console.log(this.data.fw)
+    console.log(this.data.myOpenId)
   },
 
   showPopup:function(e){
@@ -179,14 +178,31 @@ Page({
     });
   },
 
+  showPopup3: function (e) {
+    let query = e.currentTarget.dataset['contact'];
+    this.setData({
+      show3: true,
+      tmpContact: query
+    });
+  },
+
   onClose() {
     this.setData({ show: false});
   },
   onClose2() {
     this.setData({ show2: false });
   },
+  onClose3() {
+    this.setData({ show3: false });
+  },
 
   submit:function(e){
+    this.setData({
+      show:false
+    })
+    wx.showToast({
+      title: '已确认完成！',
+    })
     let _this = this
     wx.cloud.init({
       env: 'test-g55yu',
@@ -195,7 +211,7 @@ Page({
     const db = wx.cloud.database()
     console.log(this.data.tmpId)
     wx.cloud.callFunction({
-      name: 'new-update-order-isFinished', data: { _id: this.data.tmpId }, 
+      name: 'setOrderIsFinished', data: { _id: this.data.tmpId }, 
       success: (res) => {
         console.log(res)
         db.collection('orders').get({
@@ -213,7 +229,6 @@ Page({
             _this.setData({
               fb: list1,
               rw: list2,
-              show:false
             })
           }
         })
@@ -224,6 +239,12 @@ Page({
   },
 
     myDelete: function (e) {
+      this.setData({
+        show2:false
+      })
+      wx.showToast({
+        title: '删除成功！',
+      })
     let _this = this
     wx.cloud.init({
       env: 'test-g55yu',
@@ -250,7 +271,6 @@ Page({
             _this.setData({
               fb: list1,
               rw: list2,
-              show2: false
             })
           }
         })
@@ -258,5 +278,15 @@ Page({
       fail: console.error
     })
 
-  }
+  },
+
+
+  previewImg: function (e) {
+    var currentUrl = e.currentTarget.dataset.currenturl
+    var previewUrls = e.currentTarget.dataset.previewurl
+    wx.previewImage({
+      current: currentUrl, //必须是http图片，本地图片无效
+      urls: previewUrls, //必须是http图片，本地图片无效
+    })
+  },
 })

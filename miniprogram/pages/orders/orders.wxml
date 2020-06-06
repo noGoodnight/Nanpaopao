@@ -1,5 +1,13 @@
 <!--pages/orders/orders.wxml-->
-<image class="nju-head" mode="aspectFit" src="https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/QQ%E5%9B%BE%E7%89%8720200523104552.jpg" />
+
+<swiper class="" indicator-dots="true" autoplay="true" interval="5000" duration="1000">
+  <block wx:for="{{picList}}" wx:key="index">
+    <swiper-item>
+      <image src="{{item}}" class="slide-image" mode="aspectFill" bindtap='previewImg' data-previewurl='{{picList}}'
+      data-currenturl='{{item}}'/>
+    </swiper-item>   
+  </block>  
+</swiper>
 
 <van-divider />
 
@@ -57,6 +65,11 @@
 				<view slot="tags">
 					<van-tag plain type="primary">{{m2.splitDate(item.ddl)}}</van-tag>
 				</view>
+        <view slot="footer">
+					<van-button class="button" size="mini" type="primary" round="true" is-link bind:click="showPopup3" data-contact="{{item.contact}}">
+						- 查 看 联 系 方 式 -
+					</van-button>
+				</view>
 			</van-card>
 		</view>
 		<van-divider />
@@ -76,4 +89,10 @@
 	<text class="context">确 认 要 删 除 吗 ？</text>
 	<view class='blank'></view>
 	<van-button class='context' type="danger" bind:click="myDelete"> 确 认 删 除 </van-button>
+</van-popup>
+
+<van-popup show="{{ show3 }}" closeable position="bottom" custom-style="height:200px;width:100%;" bind:close="onClose3">
+	<view class='blank'></view>
+	<text class="context">联系方式：“{{tmpContact}}”</text>
+	<view class='blank'></view>
 </van-popup>
