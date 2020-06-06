@@ -38,10 +38,25 @@
 	module.exports.splitDate = splitDate;
 </wxs>
 
+<wxs module="m3">
+	var url = function(type) {
+		var output = "";
+    if(type==="1"){
+      output="https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E6%9D%9C%E5%8E%A6%E5%9B%BE%E4%B9%A6%E9%A6%86.jpg";
+    }  else if(type==="2"){
+      output="https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E5%A4%A7%E6%B4%BB.jpg";
+    } else{
+      output="https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E5%8C%97%E5%A4%A7%E6%A5%BC.jpg" ;
+    }   
+		return output;
+	}
+	module.exports.url = url;
+</wxs>
+
 <van-tabs active="{{ active }}" bind:change="onChange">
 	<van-tab title="我的发布">
 		<view wx:for="{{fb}}" wx:key="id">
-			<van-card tag="{{m1.getState(item.pullerId,item.isFinished)}}" desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg">
+			<van-card tag="{{m1.getState(item.pullerId,item.isFinished)}}" desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="{{m3.url(item.type)}}">
 				<view slot="footer">
 					<van-button class="button" wx:if="{{item.pullerId=='null'}}" size="mini" type="danger" round="true" is-link bind:click="showPopup2" data-id="{{item._id}}">
 						- 删 除 任 务 -
@@ -61,7 +76,7 @@
 
 	<van-tab title="我的任务">
 		<view wx:for="{{rw}}" wx:key="id">
-			<van-card desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg">
+			<van-card desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="{{m3.url(item.type)}}">
 				<view slot="tags">
 					<van-tag plain type="primary">{{m2.splitDate(item.ddl)}}</van-tag>
 				</view>

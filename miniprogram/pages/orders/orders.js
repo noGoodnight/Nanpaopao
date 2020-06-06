@@ -63,7 +63,6 @@ Page({
                 list2.sort(function (a, b) {
                   return a.DDLinMillisecond - b.DDLinMillisecond
                 })
-                console.log(list1)
                 _this.setData({
                   fb: list1,
                   rw: list2,
