@@ -47,7 +47,6 @@ Page({
             const db = wx.cloud.database()
             db.collection('orders').get({
               success: function (res) {
-                console.log(res)
                 var list1 = []
                 var list2 = []
                 for (var i = 0; i < res.data.length; i++) {
@@ -58,6 +57,13 @@ Page({
                     list2.push(res.data[i])
                   }
                 }
+                list1.sort(function (a, b) {
+                  return b.publishTime - a.publishTime
+                })
+                list2.sort(function (a, b) {
+                  return a.DDLinMillisecond - b.DDLinMillisecond
+                })
+                console.log(list1)
                 _this.setData({
                   fb: list1,
                   rw: list2,
@@ -110,30 +116,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    let _this=this
-    wx.cloud.init({
-      env: 'test-g55yu',
-      traceUser: true,
-    })
-    const db = wx.cloud.database()
-    db.collection('orders').get({
-      success: function (res) {
-        var list1 = []
-        var list2 = []
-        for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].pusherId == _this.data.myOpenId) {
-            list1.push(res.data[i])
-          }
-          if (res.data[i].pullerId == _this.data.myOpenId && res.data[i].isFinished == false) {
-            list2.push(res.data[i])
-          }
-        }
-        _this.setData({
-          fb: list1,
-          rw: list2,
-        })
-      }
-    })
     this.onLoad()
   },
 
@@ -158,8 +140,6 @@ Page({
       icon: 'none',
     });
     this.setData({ active: event.detail });
-    console.log(this.data.fw)
-    console.log(this.data.myOpenId)
   },
 
   showPopup:function(e){
