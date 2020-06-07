@@ -88,10 +88,7 @@ Page({
             }
             if (toAdd) {
               if (value != "") {
-                console.log(value)
-                console.log(res.data[i].title.indexOf(value))
-                console.log(res.data[i].description.indexOf(value))
-                if (res.data[i].title.indexOf(value) < 0 || res.data[i].description.indexOf(value) < 0) {
+                if (res.data[i].title.indexOf(value) < 0 && res.data[i].description.indexOf(value) < 0) {
                   toAdd = false
                 }
                 console.log(toAdd)
