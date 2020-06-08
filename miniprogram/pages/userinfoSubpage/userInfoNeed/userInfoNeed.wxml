@@ -1,25 +1,15 @@
 <!-- userInfoNeed -->
 <view class="container">
-	<van-tabs active="{{active}}" bind:change="onChange">
-		<van-tab title="我的发布">
-			<view class="cells" wx:for='{{pushmissions}}' wx:key="id">
+
+		
+		<text>我的任务</text>
+			<view class="cells" wx:for='{{missions}}' wx:key="id">
 				<van-card tag="{{m1.getState(item.pullerId,item.isFinished)}}" desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg" >
 				<view slot="footer">
-					<van-button size="small" bind:click="setpushMission" data-oid="{{item._id}}">- 查 看 -</van-button>				
+					<van-button size="small" bind:click="setMission" data-oid="{{item._id}}">- 查 看 -</van-button>				
 					</view>
 				</van-card>
 			</view>
-		</van-tab>
-		<van-tab title="我的任务">
-			<view class="cells" wx:for='{{pullmissions}}' wx:key="id">
-				<van-card tag="{{m1.getState(item.pullerId,item.isFinished)}}" desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg" >
-				<view slot="footer">
-					<van-button size="small" bind:click="setpullMission" data-oid="{{item._id}}">- 查 看 -</van-button>				
-					</view>
-				</van-card>
-			</view>
-		</van-tab>
-	</van-tabs>
 	<van-popup show="{{show}}" round closeable close-icon="close" custom-style="height:　280rpx;width: 100%" position="bottom"  bind:close="onClose">
 		<van-cell-group>
 			<van-cell title="标题：{{mission.title}}"/>

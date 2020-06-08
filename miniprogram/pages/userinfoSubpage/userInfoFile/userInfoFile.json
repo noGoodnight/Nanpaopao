@@ -15,6 +15,7 @@
     "van-dialog": "@vant/weapp/dialog/index",
     "van-row": "@vant/weapp/row/index",
     "van-col": "@vant/weapp/col/index",
-    "van-icon":"@vant/weapp/icon/index"
+    "van-icon":"@vant/weapp/icon/index",
+    "van-divider":"@vant/weapp/divider/index"
   }
 }

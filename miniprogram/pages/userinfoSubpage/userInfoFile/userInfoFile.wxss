@@ -1,7 +1,7 @@
 .cells{
   width: 100%;
 }
-image{
+.headpic{
   width: 5rem;
   height: 5rem;
   margin-bottom: 1rem;
@@ -12,10 +12,24 @@ image{
   padding-top: 5rem;
 }
 .confirm{
-  width: 80%;
+  width:15rem;
   bottom:7rem;
   position:fixed;
+  align-self: center;
 }
-van-picder{
-  margin-bottom: 5rem;
+.downbutton{
+  margin-left: 3rem;
+  margin-right: 3rem;
+  align-self: center;
+}
+.conpic{
+  width:80%;
+  margin-left: 0rem;
+  
+}
+.save{
+ margin-left: 10rem;
+}
+text{
+  margin-left: 1rem;
 }

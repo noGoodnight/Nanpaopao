@@ -7,3 +7,7 @@
 van-tabs{
   width:100%;
 }
+text{
+  align-self: center;
+  size: 10rem;
+}

@@ -1,5 +1,6 @@
 // pages/userinfo/userinfo.js
 const app = getApp()
+const db=wx.cloud.database()
 Page({
 
   /**
@@ -71,7 +72,8 @@ Page({
       // this.userInfo=app.globalData.userInfo
       let _this=this
       this.setData({
-        userInfo:app.globalData.userInfo
+        userInfo:app.globalData.userInfo,
+        opID:app.globalData.openId
       })
       if (app.globalData.userInfo.gender){
         this.setData({
@@ -83,18 +85,7 @@ Page({
           gender:"女"
         }) 
       }
-      wx.login({
-        //获取code
-        success: function (res) {
-          const db = wx.cloud.database()
-          var code = res.code; //返回code
-          wx.cloud.callFunction({
-            name: 'login', data: { code: code },
-            success: function (res) {
-              let openID = res.result.userInfo.openId
-              _this.setData({
-                opID: openID
-              })
+      
               db.collection('orders').get({
                 success: function (res) {
                   var sum=0
@@ -114,11 +105,7 @@ Page({
                   })                                 
                 }
               })
-            },
-            fail: console.error
-          })
-        }
-      })
+            
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
