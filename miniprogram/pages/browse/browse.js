@@ -53,9 +53,9 @@ Page({
     firstLoad: true,
     picture: [
       "",
-      "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E6%9D%9C%E5%8E%A6%E5%9B%BE%E4%B9%A6%E9%A6%86.jpg",
+      "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E8%81%9A%E8%B4%A4%E4%BA%AD.jpg",
       "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E5%A4%A7%E6%B4%BB.jpg",
-      "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E5%8C%97%E5%A4%A7%E6%A5%BC.jpg",
+      "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E7%A7%8B%E5%A4%A9%E5%8C%97%E5%A4%A7%E6%A5%BC.jpg",
     ],
     time: ""
   },
