@@ -94,9 +94,7 @@ Page({
                       if(res.data[i].pullerId== _this.data.opID){
                           sum=sum+res.data[i].amount                   
                       }
-                      if(res.data[i].pusherId== _this.data.opID){
-                        sum=sum-res.data[i].amount                       
-                    }
+                
                     }                   
                   }
                   console.log(sum)
