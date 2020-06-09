@@ -12,7 +12,6 @@ Page({
       studentId: '',
       pictures: [],
     },
-    tempPrivateInfo:{},
     opID: '',
     userInfo: {},
     gender: '',
@@ -39,36 +38,22 @@ Page({
       showId: true
     })
   },
-  setTempName(event) {
-    var info = this.data.tempPrivateInfo
+  setName(event) {
+    var info = this.data.privateInfo
 
     info.userName = event.detail
     this.setData({
-      tempPrivateInfo: info
+      privateInfo: info
     })
   },
-  setName(){
-    var info=this.data.privateInfo
-    info.userName=this.data.tempPrivateInfo.userName
-    this.setData({
-      privateInfo:info,
-      showName:false
-    })
-  },
-  setTempId(event) {
-    var info = this.data.tempPrivateInfo
 
+
+  setId(event) {
+    var info = this.data.privateInfo
     info.studentId = event.detail
     this.setData({
-      tempPrivateInfo: info
-    })
-  },
-  setId(){
-    var info=this.data.privateInfo
-    info.studentId=this.data.tempPrivateInfo.studentId
-    this.setData({
-      privateInfo:info,
-      showId:false
+      privateInfo: info,
+      showId: false
     })
   },
   closeName() {
@@ -99,6 +84,7 @@ Page({
   },
   addImg: function () {
     var _this = this
+
     wx.cloud.init()
     wx.chooseImage({ //选择图片
       count: 1, //规定选择图片的数量，默认9
@@ -111,14 +97,18 @@ Page({
           cloudPath: "certifiedPhoto/" + new Date().getTime() + "-" + Math.floor(Math.random() * 1000), //云储存的路径及文件名
           filePath: chooseres.tempFilePaths[0], //要上传的图片/文件路径 这里使用的是选择图片返回的临时地址             
           success: (uploadres) => { //上传图片到云储存成功
-            //console.log(uploadres)                
-            var filePath = chooseres.tempFilePaths[0]
-            var fileList = _this.data.tempPrivateInfo.pictures
-            fileList.push(filePath)
-            var info = _this.data.tempPrivateInfo
+
+            let filePath = chooseres.tempFilePaths[0]
+            let fileList = _this.data.privateInfo.pictures
+            let temp = []
+
+            temp.push(filePath)
+            temp.push(uploadres.fileID)
+            fileList.push(temp)
+            let info = _this.data.privateInfo
             info.pictures = fileList
             _this.setData({
-              tempPrivateInfo: info
+              privateInfo: info
             })
             wx.showLoading({ //显示加载提示框 不会自动关闭 只能wx.hideLoading关闭
               title: "图片上传中", //提示框显示的提示信息
@@ -155,9 +145,37 @@ Page({
     this.setData({
       confirm: false,
     })
+    var _this = this
+
+    db.collection('users').where({
+      openId: _this.data.opID
+    }).get({
+      success: function (res) {
+        var deletefiles = []
+        var ori =  res.data[0].pictures
+        console.log(ori)
+        for (var i = 0; i < _this.data.privateInfo.pictures.length; i++) {
+          for(var k=0;k<ori.length;k++){
+            if(ori[k][1]==_this.data.privateInfo.pictures[i][1]){
+              deletefiles.push(ori[k][1])
+              break
+            }
+          }
+        }
+        console.log(deletefiles)
+        wx.cloud.deleteFile({
+          fileList: deletefiles,
+        })
+      }
+    })
+    
+
   },
   handleSubmit(event) {
     var _this = this
+    _this.setData({
+      privateInfo: _this.data.tempPrivateInfo
+    })
     if (this.data.privateInfo.userName == "") {
       wx.showToast({
         title: '请输入有效的姓名',
@@ -180,10 +198,8 @@ Page({
       });
       return
     } else {
-      var _this = this
-      _this.setData({
-        privateInfo: _this.data.tempPrivateInfo
-      })
+
+      console.log(_this.data.tempPrivateInfo)
       db.collection('users').get({
         success: function (res) {
           console.log(res)
@@ -230,7 +246,8 @@ Page({
   onLoad: function (options) {
     this.setData({
       userInfo: app.globalData.userInfo,
-      opID: app.globalData.openId
+      opID: app.globalData.openId,
+      tempPrivateInfo: this.data.privateInfo
     })
 
     let _this = this
@@ -244,7 +261,7 @@ Page({
             break
           }
         }
-        console.log(info)
+
         if (info != null) {
           var temp = _this.data.privateInfo
           temp.userName = info.userName
@@ -252,12 +269,15 @@ Page({
           temp.pictures = info.pictures
           _this.setData({
             privateInfo: temp,
-            tempPrivateInfo:temp,
+            tempPrivateInfo: temp,
           })
+          _this.data.tempPrivateInfo = {}
+          console.log(_this.data.tempPrivateInfo)
+          console.log(_this.data.privateInfo)
         }
       }
     })
-    
+
   },
 
 
