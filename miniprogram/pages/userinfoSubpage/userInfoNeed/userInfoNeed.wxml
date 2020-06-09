@@ -4,7 +4,7 @@
 		
 		<text>我的任务</text>
 			<view class="cells" wx:for='{{missions}}' wx:key="id">
-				<van-card tag="{{m1.getState(item.pullerId,item.isFinished)}}" desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="http://img3.imgtn.bdimg.com/it/u=2783525887,3246024378&fm=26&gp=0.jpg" >
+				<van-card tag="{{m1.getState(item.pullerId,item.isFinished)}}" desc="{{item.description}}" title="{{item.title}}" price="{{item.amount}}" thumb="{{picture[item.type]}}" >
 				<view slot="footer">
 					<van-button size="small" bind:click="setMission" data-oid="{{item._id}}">- 查 看 -</van-button>				
 					</view>
