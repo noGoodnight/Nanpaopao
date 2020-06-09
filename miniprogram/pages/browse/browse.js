@@ -53,21 +53,27 @@ Page({
     firstLoad: true,
     picture: [
       "",
-      "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E6%9D%9C%E5%8E%A6%E5%9B%BE%E4%B9%A6%E9%A6%86.jpg",
+      "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E8%81%9A%E8%B4%A4%E4%BA%AD.jpg",
       "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E5%A4%A7%E6%B4%BB.jpg",
-      "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E5%8C%97%E5%A4%A7%E6%A5%BC.jpg",
-    ]
+      "https://wxforweb-1302222241.cos.ap-nanjing.myqcloud.com/%E7%A7%8B%E5%A4%A9%E5%8C%97%E5%A4%A7%E6%A5%BC.jpg",
+    ],
+    time: ""
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      time: this.GetDate()
+    })
     let _this = this
     let value1 = _this.data.value1
     let value2 = _this.data.value2
     let value3 = _this.data.value3
     let value = _this.data.value
+    let time = _this.data.time
+    console.log()
     _this.setData({
       missions: [] //防止出现重复
     })
@@ -77,7 +83,7 @@ Page({
       success: function (res) {
         for (var i = 0; i < res.data.length; i++) {
           var toAdd = true
-          if (res.data[i].isFinished == false && res.data[i].pullerId == "null") {
+          if (res.data[i].isFinished == false && res.data[i].pullerId == "null" && res.data[i].ddl > time) {
             if (value1 != 0 && res.data[i].start != _this.data.option1[value1].text) {
               toAdd = false
             }
@@ -100,7 +106,7 @@ Page({
           }
         }
         let tmpMissions = _this.data.missions
-        if(value3 == 1){
+        if (value3 == 1) {
           tmpMissions.sort(function (a, b) {
             return b.amount - a.amount
           })
@@ -257,10 +263,28 @@ Page({
     this.onShow()
   },
 
-  switchMoney(e){
+  switchMoney(e) {
     this.setData({
-      value3:e.detail
+      value3: e.detail
     })
     this.onShow()
   },
+  GetDate() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = this.toString(now.getMonth() + 1);
+    var date = this.toString(now.getDate());
+    var hour = this.toString(now.getHours());
+    var minu = this.toString(now.getMinutes());
+    var _time = year + "-" + month + "-" + date + " " + hour + ":" + minu
+    return _time
+  },
+
+  toString(num) {
+    if (num < 10) {
+      return "0" + num
+    } else {
+      return "" + num
+    }
+  }
 })
