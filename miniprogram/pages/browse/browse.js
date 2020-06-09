@@ -73,6 +73,8 @@ Page({
     let value3 = _this.data.value3
     let value = _this.data.value
     let time = _this.data.time
+    let opID = app.globalData.openId
+    console.log(opID)
     console.log()
     _this.setData({
       missions: [] //防止出现重复
@@ -83,7 +85,7 @@ Page({
       success: function (res) {
         for (var i = 0; i < res.data.length; i++) {
           var toAdd = true
-          if (res.data[i].isFinished == false && res.data[i].pullerId == "null" && res.data[i].ddl > time) {
+          if (res.data[i].isFinished == false && res.data[i].pullerId == "null" && res.data[i].ddl > time && res.data[i].pusherId != opID) {
             if (value1 != 0 && res.data[i].start != _this.data.option1[value1].text) {
               toAdd = false
             }
