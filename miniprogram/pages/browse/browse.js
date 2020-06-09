@@ -85,7 +85,7 @@ Page({
       success: function (res) {
         for (var i = 0; i < res.data.length; i++) {
           var toAdd = true
-          if (res.data[i].isFinished == false && res.data[i].pullerId == "null" && res.data[i].ddl > time && res.data[i].pusherId != opID) {
+          if (res.data[i].isFinished == false && res.data[i].pullerId == "null" && res.data[i].ddl > time) {
             if (value1 != 0 && res.data[i].start != _this.data.option1[value1].text) {
               toAdd = false
             }
@@ -219,25 +219,33 @@ Page({
   },
 
   confirm(e) {
-    const db = wx.cloud.database()
-    db.collection('orders').doc(this.data.orderID).update({
-      // data 传入需要局部更新的数据
-      data: {
-        // 表示将 done 字段置为 true
-        pullerId: app.globalData.openId
-      },
-      success: function (res) {
-        console.log('认领成功')
-        wx.showToast({
-          title: '认领成功',
-          mask: true,
-        })
-      }
-    })
-    this.onClose()
-    wx.switchTab({
-      url: "/pages/orders/orders",
-    })
+    if (this.data.mission.pusherId == app.globalData.openId) {
+      wx.showToast({
+        title: '认领失败',
+        icon: "none",
+      })
+      this.onClose()
+    } else {
+      const db = wx.cloud.database()
+      db.collection('orders').doc(this.data.orderID).update({
+        // data 传入需要局部更新的数据
+        data: {
+          // 表示将 done 字段置为 true
+          pullerId: app.globalData.openId
+        },
+        success: function (res) {
+          console.log('认领成功')
+          wx.showToast({
+            title: '认领成功',
+            mask: true,
+          })
+        }
+      })
+      this.onClose()
+      wx.switchTab({
+        url: "/pages/orders/orders",
+      })
+    }
   },
 
   splitDate(String) {
