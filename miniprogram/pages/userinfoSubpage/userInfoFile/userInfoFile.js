@@ -129,7 +129,7 @@ Page({
       this.setData({
         authenticated:true
       })
-      console.log(app.globalData)
+      //console.log(app.globalData)
       wx.showToast({
         title: '上传成功',
         duration: 1500,

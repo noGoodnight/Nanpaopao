@@ -146,40 +146,6 @@ Page({
     }
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
 
   onChange(e) {
     this.setData({
@@ -219,32 +185,49 @@ Page({
   },
 
   confirm(e) {
-    if (this.data.mission.pusherId == app.globalData.openId) {
+    if(app.globalData.isAuthenticated){
+      if (this.data.mission.pusherId == app.globalData.openId) {
+        wx.showToast({
+          title: '认领失败',
+          icon: "none",
+        })
+        this.onClose()
+      } else {
+        const db = wx.cloud.database()
+        db.collection('orders').doc(this.data.orderID).update({
+          // data 传入需要局部更新的数据
+          data: {
+            // 表示将 done 字段置为 true
+            pullerId: app.globalData.openId
+          },
+          success: function (res) {
+            console.log('认领成功')
+            wx.showToast({
+              title: '认领成功',
+              mask: true,
+            })
+          }
+        })
+        this.onClose()
+        wx.switchTab({
+          url: "/pages/orders/orders",
+        })
+      }
+    }
+    else{
+      this.onClose()
       wx.showToast({
-        title: '认领失败',
-        icon: "none",
+        title: '请先完成身份验证',
+        mask:true,
+        icon:"none",
+        duration:500,
       })
-      this.onClose()
-    } else {
-      const db = wx.cloud.database()
-      db.collection('orders').doc(this.data.orderID).update({
-        // data 传入需要局部更新的数据
-        data: {
-          // 表示将 done 字段置为 true
-          pullerId: app.globalData.openId
-        },
-        success: function (res) {
-          console.log('认领成功')
-          wx.showToast({
-            title: '认领成功',
-            mask: true,
-          })
-        }
-      })
-      this.onClose()
-      wx.switchTab({
-        url: "/pages/orders/orders",
-      })
+      setTimeout(function () {
+        wx.navigateTo({
+          url: '/pages/userinfoSubpage/userInfoFile/userInfoFile',
+        })
+      }
+        , 500)
     }
   },
 
