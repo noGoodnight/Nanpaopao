@@ -44,31 +44,31 @@ Page({
     })
 
     let _this=this
-            const db = wx.cloud.database()
-            db.collection('orders').get({
-              success: function (res) {
-                var list1 = []
-                var list2 = []
-                for (var i = 0; i < res.data.length; i++) {
-                  if (res.data[i].pusherId == myopenid) {
-                    list1.push(res.data[i])
-                  }
-                  if (res.data[i].pullerId == myopenid && res.data[i].isFinished == false) {
-                    list2.push(res.data[i])
-                  }
-                }
-                list1.sort(function (a, b) {
-                  return b.publishTime - a.publishTime
-                })
-                list2.sort(function (a, b) {
-                  return a.DDLinMillisecond - b.DDLinMillisecond
-                })
-                _this.setData({
-                  fb: list1,
-                  rw: list2,
-                })
-              }
-            })
+    const db = wx.cloud.database()
+    db.collection('orders').get({
+      success: function (res) {
+        var list1 = []
+        var list2 = []
+        for (var i = 0; i < res.data.length; i++) {
+          if (res.data[i].pusherId == myopenid) {
+            list1.push(res.data[i])
+          }
+          if (res.data[i].pullerId == myopenid && res.data[i].isFinished == false) {
+            list2.push(res.data[i])
+          }
+        }
+        list1.sort(function (a, b) {
+          return b.publishTime - a.publishTime
+        })
+        list2.sort(function (a, b) {
+          return a.DDLinMillisecond - b.DDLinMillisecond
+        })
+        _this.setData({
+          fb: list1,
+          rw: list2,
+        })
+      }
+  })
     
     
     

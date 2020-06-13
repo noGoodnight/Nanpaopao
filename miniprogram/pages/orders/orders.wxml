@@ -106,7 +106,7 @@
 	<van-button class='context' type="danger" bind:click="myDelete"> 确 认 删 除 </van-button>
 </van-popup>
 
-<van-popup show="{{ show3 }}" closeable position="bottom" custom-style="height:200px;width:100%;" bind:close="onClose3">
+<van-popup show="{{ show3 }}" round closeable position="bottom" custom-style="height:200px;width:100%;" bind:close="onClose3">
 	<view class='blank'></view>
 	<text class="context">联系方式：“{{tmpContact}}”</text>
 	<view class='blank'></view>
