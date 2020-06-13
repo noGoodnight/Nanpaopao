@@ -7,19 +7,12 @@ cloud.init({
 })
 
 const db = cloud.database();
+
 // 云函数入口函数
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
-
-try {
-    //这里的update依据是event._id
-    console.log(event._id)
-    return await db.collection("orders").doc(event._id).update({
-      data: {
-        isFinished: true
-      }
-    })
-  } catch (e) {
-    console.error(e)
-  }
+  user = await db.collection('users').where({
+    openId: wxContext.OPENID,
+  }).get()
+  return user.data
 }
