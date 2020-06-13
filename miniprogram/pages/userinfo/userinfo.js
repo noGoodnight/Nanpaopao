@@ -85,24 +85,23 @@ Page({
           gender:"女"
         }) 
       }
-      
-              db.collection('orders').get({
-                success: function (res) {
-                  var sum=0
-                  for (var i = 0; i < res.data.length; i++) {
-                    if (res.data[i].isFinished == true ) {
-                      if(res.data[i].pullerId== _this.data.opID){
-                          sum=sum+res.data[i].amount                   
-                      }
-                
-                    }                   
-                  }
-                  console.log(sum)
-                  _this.setData({
-                    gain:sum,
-                  })                                 
-                }
-              })
+      db.collection('orders').get({
+        success: function (res) {
+          var sum=0
+          for (var i = 0; i < res.data.length; i++) {
+            if (res.data[i].isFinished == true ) {
+              if(res.data[i].pullerId== _this.data.opID){
+                  sum=sum+res.data[i].amount                   
+              }
+        
+            }                   
+          }
+          //console.log(sum)
+          _this.setData({
+            gain:sum,
+          })                                 
+        }
+      })
             
   },
   /**

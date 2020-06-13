@@ -74,8 +74,8 @@ Page({
     let value = _this.data.value
     let time = _this.data.time
     let opID = app.globalData.openId
-    console.log(opID)
-    console.log()
+    //console.log(opID)
+    //console.log()
     _this.setData({
       missions: [] //防止出现重复
     })
