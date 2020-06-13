@@ -1,41 +1,53 @@
 <view class="container">
 	<image class="headpic" src="{{userInfo.avatarUrl}}" mode="cover" />
 	<!-- <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image> -->
-	<text class="userinfo-nickname">{{userInfo.nickName}}</text>
+	<text class="nickname">{{userInfo.nickName}}</text>
 
 	<van-cell-group class="cells">
-		<van-cell title="姓名" value="{{privateInfo.userName}}" icon="user-circle-o" bind:click="changeName" is-link />
-		<van-cell title="学号" value="{{privateInfo.studentId}}" icon="idcard" bind:click="changeId" is-link />
-		<van-cell title="认证图片" icon="photo-o" bind:click="changePictures" is-link />
+		<van-field
+    value="{{ userName }}"
+    clearable
+    label="姓名"
+    left-icon="user-circle-o"
+		wx:if = "{{!authenticated}}"
+    placeholder="请输入姓名"
+    bind:change="setName"
+  />
+		<van-cell title="姓名" wx:else value="{{userName}}" icon="user-circle-o" />
+		<van-field
+    value="{{ studentId }}"
+    clearable
+    label="学号"
+    left-icon="idcard"
+		wx:if = "{{!authenticated}}"
+    placeholder="请输入学号"
+    bind:change="setId"
+  />
+		<van-cell title="学号" wx:else value="{{studentId}}" icon="idcard"/>
+		<van-cell title="上传认证图片" wx:if = "{{!authenticated}}" icon="photo-o" bind:click="uploadPic" is-link />
+		<van-cell title="认证图片" wx:else icon="photo-o" value = "已上传"/>
 
 	</van-cell-group>
-	<van-popup round show="{{showName}}" position="bottom" bind:close="closeName">
-		<text>修改姓名</text>
-		<van-button round class="save" type="primary" size="small" bind:click="setName">保存</van-button>
-		<van-field value="{{privateInfo.userName}}" placeholder="{{privateInfo.userName}}" bind:change="setName">
 
-		</van-field>
-	</van-popup>
-	<van-popup round show="{{showId}}" bind:close="closeId" position="bottom" title="修改学号">
-		<text>修改学号</text>
-		<van-button round class="save" type="primary" size="small" bind:click="setId">保存</van-button>
-		<van-field value="{{privateInfo.studentId}}" placeholder="{{privateInfo.studentId}}" bind:change="setId" />
-	</van-popup>
-	<van-popup v-modal="isShow" position="top" show="{{showPictures}}" bind:close="closePictures" class="overlay">
-		<!-- <van-button icon="plus" type="primary" bind:click="savePictures"> -->
-		<view wx:for="{{privateInfo.pictures}}" wx:key="id">
-			<van-image class="conpic" width="5rem" height="5rem" fit="contain" src="{{item[0]}}" />
-		</view>
-		<button bindtap="addImg" class="addPng" type="default">添加图片</button>
 
+
+	<van-popup v-modal="isShow" position="bottom" show="{{showPopup}}" bind:close="cancelUploadPic" custom-style="height: 280px">
+		<van-image 
+		src="{{localPath}}"
+		bindtap="previewImg"
+		width="100%"
+    height="68%"
+  	fit="fill"
+		class="image"
+		>
+		</van-image>
+		<van-button bindtap="selectImg" class="selectImgBt">选择图片</van-button>
 	</van-popup>
-	<van-button class="confirm" round type="info" size="large" bind:click="confirmInfo">确定</van-button>
-	<van-popup round show="{{confirm}}" position="bottom" bind:close="closeConfirm">
-		<van-divider />
-		<text>个人信息提交后，认证图片经过审核后就不可以更改了哦，你确定要提交嘛？</text>
-		<van-divider /><van-divider />	
-				<van-button class="downbutton" type="primary" round bind:click="closeConfirm">取消</van-button>
-				<van-button class="downbutton" type="info" round bind:click="handleSubmit">提交</van-button>
-			
-	</van-popup>
+
+
+	<van-button class="confirmButton" plain type="info" size="large" bind:click="confirmInfo" wx:if = "{{!authenticated}}" >确定</van-button>
+	<van-dialog id="van-dialog" />
+
+
+
 </view>

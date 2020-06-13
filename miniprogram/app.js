@@ -50,7 +50,10 @@ App({
   },
   globalData: {
     userInfo: null,
-    openId:""
+    openId:"",
+    isAuthenticated: false,
+    userName:'',
+    studentId:'',
   },
 //tabbar
   colorChange(event) {

@@ -78,8 +78,34 @@ Page({
       data: {
       }
     }).then(res => {
+      //console.log(res)
       app.globalData.openId = res.result.openid
       //console.log(app.globalData.openId)
+    }).catch(err => {
+      console.log(err)
+    })
+    wx.cloud.callFunction({
+      // 要调用的云函数名称
+      name: 'checkAuthentication',
+      // 传递给云函数的event参数
+      data: {
+      }
+    }).then(res => {
+      app.globalData.isAuthenticated = res.result
+      if(app.globalData.isAuthenticated){//必须要在认证信息获得过后才能继续获取（这里可以只调用一个函数的，算了懒得改了）
+        wx.cloud.callFunction({
+          // 要调用的云函数名称
+          name: 'getUser',
+          // 传递给云函数的event参数
+          data: {
+          }
+        }).then(res => {
+          app.globalData.userName = res.result[0].userName,
+          app.globalData.studentId = res.result[0].studentId
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     }).catch(err => {
       console.log(err)
     })

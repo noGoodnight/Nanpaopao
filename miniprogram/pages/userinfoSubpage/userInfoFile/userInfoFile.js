@@ -1,285 +1,161 @@
 // pages/userInfoFile/index.js
 const app = getApp()
-const db = wx.cloud.database()
+import Dialog from '../../../miniprogram_npm/@vant/weapp/dialog/dialog';
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    privateInfo: {
-      userName: '',
-      studentId: '',
-      pictures: [],
-    },
-    opID: '',
-    userInfo: {},
-    gender: '',
-    showName: false,
-    showPictures: false,
-    showId: false,
-    activeNames: ['1'],
-    confirm: false,
-    user: null,
-
+    userName: '',
+    studentId: '',
+    localPath: '',
+    authenticated:false,
+    showDialog: false,
+    showPopup:false,
   },
-  changePictures() {
+  uploadPic() {
     this.setData({
-      showPictures: true,
+      showPopup: true,
     })
   },
-  changeName() {
+  cancelUploadPic() {
     this.setData({
-      showName: true
+      showPopup: false,
     })
   },
-  changeId() {
-    this.setData({
-      showId: true
+  previewImg: function (e) {
+    var img = this.data.localPath;
+    // 设置预览图片路径
+    if(img){    
+      wx.previewImage({
+      current: img,
+      urls: [img]
+    })}
+  },
+  selectImg: function () {
+    var that = this;
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: function (res) {
+        //res.tempFilePaths 返回图片本地文件路径列表
+        var tempFilePaths = res.tempFilePaths;
+        that.setData({
+          localPath: tempFilePaths[0]
+        })
+      }
+    })
+  },
+  loadImg: function () {
+    wx.cloud.init()
+    var that = this;
+    const cloudPath = "certifiedPhoto/" + app.globalData.openId;
+    const filePath = that.data.localPath;
+    wx.cloud.uploadFile({
+      cloudPath,
+      filePath,
+      success: function (res) {
+        console.log(res)
+      },
+      fail: function (res) {
+        console.log(res)
+        wx.showToast({
+          title: "图片上传失败，请检查网络或稍后重试。",
+          icon: "none",
+          duration: 1500,
+          mask: true
+        });
+      }
     })
   },
   setName(event) {
-    var info = this.data.privateInfo
-
-    info.userName = event.detail
     this.setData({
-      privateInfo: info
+      userName:event.detail
     })
   },
-
-
   setId(event) {
-    var info = this.data.privateInfo
-    info.studentId = event.detail
     this.setData({
-      privateInfo: info,
-      showId: false
-    })
-  },
-  closeName() {
-    this.setData({
-      showName: false,
-    })
-  },
-  closeId() {
-    this.setData({
-      showId: false,
-    })
-  },
-  closePictures() {
-    this.setData({
-      showPictures: false,
-    })
-  },
-  getGender() {
-    if (this.userInfo.gender) {
-      this.setData({
-        gender: "男"
-      })
-    } else {
-      this.setData({
-        gender: "女"
-      })
-    }
-  },
-  addImg: function () {
-    var _this = this
-
-    wx.cloud.init()
-    wx.chooseImage({ //选择图片
-      count: 1, //规定选择图片的数量，默认9
-      sizeType: ["original", "compressed"], //规定图片的尺寸， 原图/压缩图
-      sourceType: ['album', 'camera'], //从哪里选择图片， 相册/相机
-      success: (chooseres) => { //接口调用成功的时候执行的函数
-        //console.log(chooseres)
-        //选择图片后可以在这里上传           
-        wx.cloud.uploadFile({
-          cloudPath: "certifiedPhoto/" + new Date().getTime() + "-" + Math.floor(Math.random() * 1000), //云储存的路径及文件名
-          filePath: chooseres.tempFilePaths[0], //要上传的图片/文件路径 这里使用的是选择图片返回的临时地址             
-          success: (uploadres) => { //上传图片到云储存成功
-
-            let filePath = chooseres.tempFilePaths[0]
-            let fileList = _this.data.privateInfo.pictures
-            let temp = []
-
-            temp.push(filePath)
-            temp.push(uploadres.fileID)
-            fileList.push(temp)
-            let info = _this.data.privateInfo
-            info.pictures = fileList
-            _this.setData({
-              privateInfo: info
-            })
-            wx.showLoading({ //显示加载提示框 不会自动关闭 只能wx.hideLoading关闭
-              title: "图片上传中", //提示框显示的提示信息
-              mask: true, //显示透明蒙层，防止触摸。为true提示的时候不可以对屏幕进行操作，不写或为false时可以操作屏幕
-              success: function () {
-                wx.hideLoading() //让提示框隐藏、消失
-              }
-            });
-          },
-          fail: (err) => {
-            console.log(err)
-          }
-        })
-      },
-      fail: (err) => {
-        console.log(err)
-      }
-    })
-
-  },
-  contactUs() {
-    wx.showModal({
-      title: "联系我们",
-      content: "计网大作业",
-      cancelColor: 'cancelColor',
+      studentId: event.detail,
     })
   },
   confirmInfo() {
-    this.setData({
-      confirm: true,
-    })
-  },
-  closeConfirm() {
-    this.setData({
-      confirm: false,
-    })
-    var _this = this
-
-    db.collection('users').where({
-      openId: _this.data.opID
-    }).get({
-      success: function (res) {
-        var deletefiles = []
-        var ori =  res.data[0].pictures
-        console.log(ori)
-        for (var i = 0; i < _this.data.privateInfo.pictures.length; i++) {
-          for(var k=0;k<ori.length;k++){
-            if(ori[k][1]==_this.data.privateInfo.pictures[i][1]){
-              deletefiles.push(ori[k][1])
-              break
-            }
-          }
-        }
-        console.log(deletefiles)
-        wx.cloud.deleteFile({
-          fileList: deletefiles,
-        })
-      }
-    })
-    
-
-  },
-  handleSubmit(event) {
-    var _this = this
-    _this.setData({
-      privateInfo: _this.data.tempPrivateInfo
-    })
-    if (this.data.privateInfo.userName == "") {
+    if(this.data.localPath == ''){
       wx.showToast({
-        title: '请输入有效的姓名',
-        mask: true,
-        icon: "none"
+        title: '请上传图片',
+        mask:true,
+        icon:"none"
       });
       return
-    } else if (this.data.privateInfo.studentId == "") {
+    }
+    if(this.data.studentId==''||this.data.studentId.length!=9){
       wx.showToast({
         title: '请输入有效的学号',
-        mask: true,
-        icon: "none"
+        mask:true,
+        icon:"none"
       });
       return
-    } else if (this.data.privateInfo.pictures == []) {
-      wx.showToast({
-        title: '请添加需要认证的图片',
-        mask: true,
-        icon: "none"
-      });
-      return
-    } else {
-
-      console.log(_this.data.tempPrivateInfo)
-      db.collection('users').get({
-        success: function (res) {
-          console.log(res)
-          var flag = false
-          for (var i = 0; i < res.data.length; i++) {
-            if (res.data[i].openId == app.globalData.openId) {
-              flag = true
-              break
-            }
-          }
-          console.log(flag)
-          if (flag) {
-            db.collection("users").where({
-              openId: _this.data.opID
-            }).update({
-              data: {
-                userName: _this.data.privateInfo.userName,
-                studentId: _this.data.privateInfo.studentId,
-                pictures: _this.data.privateInfo.pictures,
-              }
-            })
-          } else {
-            db.collection('users').add({
-              data: {
-                openId: _this.data.opID,
-                userName: _this.data.privateInfo.userName,
-                studentId: _this.data.privateInfo.studentId,
-                pictures: _this.data.privateInfo.pictures,
-              }
-            })
-          }
-        }
-      })
-      wx.switchTab({
-        url: '/pages/userinfo/userinfo',
-      })
     }
-
-
+    Dialog.confirm({
+      title: '提示',
+      message: '身份信息一旦上传后将不能再次修改，确认要上传吗？',
+    })
+      .then(() => {
+        // on confirm
+        this.handleSubmit()
+      })
+      .catch(() => {
+        // on cancel
+        console.log("cancel")
+      });
+  },
+  handleSubmit() {
+    //上传图片到云端
+    this.loadImg()
+    wx.cloud.callFunction({
+      // 要调用的云函数名称
+      name: 'addUser',
+      // 传递给云函数的event参数
+      data: {
+        userName:this.data.userName,
+        studentId:this.data.studentId,
+        cloudPath:"certifiedPhoto/" + app.globalData.openId
+      }
+    }).then(res => {
+      app.globalData.isAuthenticated = true
+      app.globalData.userName = this.data.userName
+      app.globalData.studentId = this.data.studentId
+      this.setData({
+        authenticated:true
+      })
+      console.log(app.globalData)
+      wx.showToast({
+        title: '上传成功',
+        duration: 1500,
+        mask: true
+      })
+    }).catch(err => {
+      console.log("上传出错")
+      console.log(err)
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function () {
     this.setData({
       userInfo: app.globalData.userInfo,
       opID: app.globalData.openId,
-      tempPrivateInfo: this.data.privateInfo
+      authenticated: app.globalData.isAuthenticated,
     })
-
-    let _this = this
-    db.collection('users').get({
-      success: function (res) {
-        console.log(res)
-        var info = null
-        for (var k = 0; k < res.data.length; k++) {
-          if (res.data[k].openId == _this.data.opID) {
-            info = res.data[k]
-            break
-          }
-        }
-
-        if (info != null) {
-          var temp = _this.data.privateInfo
-          temp.userName = info.userName
-          temp.studentId = info.studentId
-          temp.pictures = info.pictures
-          _this.setData({
-            privateInfo: temp,
-            tempPrivateInfo: temp,
-          })
-          _this.data.tempPrivateInfo = {}
-          console.log(_this.data.tempPrivateInfo)
-          console.log(_this.data.privateInfo)
-        }
-      }
-    })
-
-  },
-
+    if(this.data.authenticated){
+      this.setData({
+        userName:app.globalData.userName,
+        studentId:app.globalData.studentId
+      })
+    }
+},
 
 
 
@@ -300,41 +176,4 @@ Page({
       });
     }
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
-
-
 })

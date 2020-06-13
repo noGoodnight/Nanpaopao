@@ -4,32 +4,29 @@
 .headpic{
   width: 5rem;
   height: 5rem;
-  margin-bottom: 1rem;
-  border-radius: 50%;
+  border-radius: 50%;  
+  margin-bottom: 0.5rem;
 }
-.overlay{
-  height: 100%;
-  padding-top: 5rem;
+.nickname{
+  margin-bottom: 0.5rem;
 }
-.confirm{
-  width:15rem;
-  bottom:7rem;
-  position:fixed;
-  align-self: center;
+
+
+.confirmButton{
+  width: 125px;
+  margin-top: 4rem;
 }
-.downbutton{
-  margin-left: 3rem;
-  margin-right: 3rem;
-  align-self: center;
-}
-.conpic{
-  width:80%;
-  margin-left: 0rem;
-  
-}
+
+
 .save{
  margin-left: 10rem;
 }
 text{
   margin-left: 1rem;
+}
+
+.selectImgBt{
+  margin-top: 2rem;
+  display: flex; 
+  justify-content: center;
 }
