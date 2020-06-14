@@ -32,11 +32,6 @@ Page({
     })
     
     wx.stopPullDownRefresh()
-    wx.cloud.init({
-      env: 'test-g55yu',
-      traceUser: true,
-    })
-
     const app = getApp()
     const myopenid = app.globalData.openId
     this.setData({
@@ -183,10 +178,6 @@ Page({
       title: '已确认完成！',
     })
     let _this = this
-    wx.cloud.init({
-      env: 'test-g55yu',
-      traceUser: true,
-    })
     const db = wx.cloud.database()
     console.log(this.data.tmpId)
     wx.cloud.callFunction({
@@ -225,10 +216,6 @@ Page({
         title: '删除成功！',
       })
     let _this = this
-    wx.cloud.init({
-      env: 'test-g55yu',
-      traceUser: true,
-    })
     const db = wx.cloud.database()
     console.log(this.data.tmpId)
     wx.cloud.callFunction({
