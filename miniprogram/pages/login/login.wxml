@@ -16,6 +16,6 @@
    <van-loading wx:if= "{{hasUserInfo && canIUse}}" size = "20px" vertical>加载中</van-loading>
   </view>
   <view class="welcome">
-    <image class = "welcome_bg" src="../../images/进入页面.png"></image>
+    <image class = "welcome_bg" src="cloud://test-g55yu.7465-test-g55yu-1302177669/loginPhoto/进入页面.png"></image>
   </view>
 </view>
