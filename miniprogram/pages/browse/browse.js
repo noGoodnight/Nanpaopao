@@ -188,8 +188,9 @@ Page({
     if(app.globalData.isAuthenticated){
       if (this.data.mission.pusherId == app.globalData.openId) {
         wx.showToast({
-          title: '认领失败',
+          title: '无法领取自己的任务',
           icon: "none",
+          mask: true,
         })
         this.onClose()
       } else {
