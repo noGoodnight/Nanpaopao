@@ -204,7 +204,7 @@ Page({
           success: function (res) {
             console.log('认领成功')
             wx.showToast({
-              title: '认领成功',
+              title: '认领成功，在我的任务中查看联系方式',
               mask: true,
             })
           }
