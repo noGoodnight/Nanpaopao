@@ -118,6 +118,7 @@ Page({
         })
       }
     })
+    wx.stopPullDownRefresh()
   },
 
   /**
