@@ -92,14 +92,14 @@
 	</van-tab>
 </van-tabs>
 
-<van-popup show="{{ show }}" closeable position="bottom" custom-style="height:200px;width:100%;" bind:close="onClose">
+<van-popup show="{{ show }}" round closeable position="bottom" custom-style="height:200px;width:100%;" bind:close="onClose">
 	<view class='blank'></view>
 	<text class="context">确 认 已 完 成 吗 ？</text>
 	<view class='blank'></view>
 	<van-button class='context' type="primary" bind:click="submit"> 确 认 完 成 </van-button>
 </van-popup>
 
-<van-popup show="{{ show2 }}" closeable position="bottom" custom-style="height:200px;width:100%;" bind:close="onClose2">
+<van-popup show="{{ show2 }}" round closeable position="bottom" custom-style="height:200px;width:100%;" bind:close="onClose2">
 	<view class='blank'></view>
 	<text class="context">确 认 要 删 除 吗 ？</text>
 	<view class='blank'></view>

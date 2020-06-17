@@ -205,15 +205,20 @@ Page({
           success: function (res) {
             console.log('认领成功')
             wx.showToast({
-              title: '认领成功，在我的任务中查看联系方式',
+              title: '认领成功，请在我的任务中查看联系方式',
+              icon: "none",
+              duration: 1000,
               mask: true,
             })
           }
         })
         this.onClose()
-        wx.switchTab({
-          url: "/pages/orders/orders",
-        })
+        setTimeout(function () {
+          wx.switchTab({
+            url: "/pages/orders/orders",
+          })
+        }
+          , 1000)
       }
     }
     else{

@@ -2,7 +2,7 @@
 <van-notice-bar
   mode="closeable"
 	left-icon="volume-o"
-  text="APP不收取任何费用，只提供平台。任务双方的金额明细均在线下完成。"
+  text="小程序不收取任何费用，任务双方的交流、金额交易均在线下完成。"
 />
 
 <van-search value="{{ value }}" placeholder="请输入关键词" shape="round" use-action-slot bind:change="onChange" bind:search="onSearch">

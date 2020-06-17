@@ -13,8 +13,8 @@ App({
         // env: 'my-env-id',
         //master分支使用nanpaopao云环境，其余分支使用test云环境
         //nanpaopao-po4ge
-        //test-g55yu
-        env: 'nanpaopao-po4ge', 
+        env: 'test-g55yu',
+        //env: 'nanpaopao-po4ge', 
         traceUser: true,
       })
     }
