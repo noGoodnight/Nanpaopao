@@ -17,12 +17,13 @@
   margin-top: 4rem;
 }
 
-
-.save{
- margin-left: 10rem;
+.notification{
+  margin-top: 1rem;
+  text-align: center;
 }
-text{
-  margin-left: 1rem;
+.notification-text{
+  font-size: 0.75rem;
+  color: cornflowerblue;
 }
 
 .selectImgBt{

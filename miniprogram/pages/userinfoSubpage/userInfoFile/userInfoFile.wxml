@@ -29,9 +29,19 @@
 
 	</van-cell-group>
 
+	<view class="notification" wx:if = "{{!authenticated}}" bindtap="showNotification" >
+    <text class="notification-text">上传须知</text>
+	</view>
+
+	
+<van-popup show="{{ notification }}" position="bottom" bind:close="closeNotification">
+<text>可以选择上传校园卡照片，学生证，教务网学生信息基本信息截图等身份认证照片</text>
+<van-divider />
+<text>除姓名学号之外的部分均可以打码</text>
+</van-popup>
 
 
-	<van-popup v-modal="isShow" position="bottom" show="{{showPopup}}" bind:close="cancelUploadPic" custom-style="height: 280px">
+	<van-popup position="bottom" show="{{showPopup}}" bind:close="cancelUploadPic" custom-style="height: 280px">
 		<van-image 
 		src="{{localPath}}"
 		bindtap="previewImg"

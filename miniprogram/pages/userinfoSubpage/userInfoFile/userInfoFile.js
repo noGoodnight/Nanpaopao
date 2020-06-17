@@ -13,6 +13,7 @@ Page({
     authenticated:false,
     showDialog: false,
     showPopup:false,
+    notification:false,
   },
   uploadPic() {
     this.setData({
@@ -81,9 +82,9 @@ Page({
     })
   },
   confirmInfo() {
-    if(this.data.localPath == ''){
+    if(this.data.userName == ''){
       wx.showToast({
-        title: '请上传图片',
+        title: '请输入姓名',
         mask:true,
         icon:"none"
       });
@@ -92,6 +93,14 @@ Page({
     if(this.data.studentId==''||this.data.studentId.length!=9){
       wx.showToast({
         title: '请输入有效的学号',
+        mask:true,
+        icon:"none"
+      });
+      return
+    }
+    if(this.data.localPath == ''){
+      wx.showToast({
+        title: '请上传图片',
         mask:true,
         icon:"none"
       });
@@ -109,6 +118,27 @@ Page({
         // on cancel
         console.log("cancel")
       });
+  },
+  showNotification(){
+    Dialog.confirm({
+      title: '上传须知',
+      message: '可以选择上传校园卡照片，学生证，教务网学生信息基本信息截图等身份认证照片\n \n除姓名学号之外的部分均可以打码处理\n \n图片只供身份认证使用',
+      messageAlign:'left',
+      showCancelButton:false
+    })
+      .then(() => {
+        // on confirm
+        
+      })
+      .catch(() => {
+        // on cancel
+        
+      });
+  },
+  closeNotification(){
+    this.setData({
+      notification:false
+    })
   },
   handleSubmit() {
     //上传图片到云端
